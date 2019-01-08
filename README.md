@@ -1,6 +1,6 @@
 
 
-![Logo](https://github.com/anjoy8/TiBug.Nuxt/blob/master/logo.jpg)
+![Logo](https://github.com/anjoy8/Nuxt.tBug/blob/master/assets/logo.jpg)
 
 
 从壹开始 [ Nuxt.js ] 之一 || 为开源收录Bug之 TiBug项目 。一个基于 Nuxt.js 提bug项目，收录有关.NetCore、DDD、Vue等相关Bug异常信息。
