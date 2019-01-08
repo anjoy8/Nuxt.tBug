@@ -1,8 +1,9 @@
 <template>
   <section class="container">
     <div>
-      <img src="../assets/logo.jpg" height="121" width="403"/>
+      <img src="../assets/logoa.png" height="121" width="403"/>
       <h1 class="title">
+        Hello
       </h1>
 
 
