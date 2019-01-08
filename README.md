@@ -6,7 +6,8 @@
 从壹开始 [ Nuxt.js ] 之一 || 为开源收录Bug之 TiBug项目 。一个基于 Nuxt.js 提bug项目，收录有关.NetCore、DDD、Vue等相关Bug异常信息。
 
 
-
+```
+```
 
 
 ## 给个星星! ⭐️
@@ -17,7 +18,7 @@
 ## 安装
 
 ```
- git clone git@github.com:anjoy8/TiBug.Nuxt.git
+ git clone git@github.com:anjoy8/Nuxt.tBug.git
 ```
 安装包依赖
 ```
@@ -30,8 +31,19 @@
 npm run dev
 ```
 
-**本地访问http://localhost:3000**
+**本地访问http://localhost:3088**
+```
+可以在 package.json 中修改端口：
 
+  "config": {
+    "nuxt": {
+      "host": "127.0.0.1",
+      "port": "3088"
+    }
+  },
+  
+  
+```
 
 
 ## 编译
