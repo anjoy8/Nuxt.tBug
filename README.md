@@ -1,8 +1,9 @@
-﻿
 
-![Logo](https://github.com/anjoy8/Nuxt.tBug/blob/master/assets/logoa.png)
+<img src="https://github.com/anjoy8/Nuxt.tBug/blob/master/assets/logoa.png" width="350"  />
 
-
+      
+      
+      
 从壹开始 [ Nuxt.js ] 之一 || 为开源收录Bug之 TiBug项目 。一个基于 Nuxt.js 提bug项目，收录有关.NetCore、DDD、Vue等相关Bug异常信息。
 
 
@@ -77,7 +78,7 @@ npm run generate
 
 
 <ul>
-<li><a id="post_title_link_9495620" href="https://www.cnblogs.com/laozhang-is-phi/p/9495620.html">框架之二 || 后端项目搭建<br></a></li>
+<li><a id="post_title_link_9495620" href="https://www.cnblogs.com/laozhang-is-phi/p/10236645.html">框架一 || 为开源收录Bug之 TiBug项目 开篇讲<br></a></li>
 
 </ul>
 
