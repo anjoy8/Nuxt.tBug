@@ -4,14 +4,15 @@ module.exports = {
   mode: 'universal',
 
   /*
-  ** Headers of the page
+  ** 页面头信息
   */
   head: {
-    title: pkg.name,
+    title: 'tBug，一个专业的解决bug平台',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { name: 'keywords', content: 'tbug博客，.netcore,vue,ddd,sqlsugar,web开发，前后端分离,nuxt' },
+      { hid: 'description', name: 'description', content: 'tbug博客，.netcore,vue,ddd,sqlsugar,web开发，前后端分离,nuxt' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -19,22 +20,32 @@ module.exports = {
   },
 
   /*
-  ** Customize the progress-bar color
+  ** 自定义加载条的样式
   */
-  loading: { color: '#fff' },
+  loading: { color: '#44C1B8', height: '4px' },
 
   /*
-  ** Global CSS
+  ** 全局CSS
   */
   css: [
-    'element-ui/lib/theme-chalk/index.css'
+    'element-ui/lib/theme-chalk/index.css',
+    'quill/dist/quill.snow.css',
+    'quill/dist/quill.bubble.css',
+    'quill/dist/quill.core.css',
+
+    {src: '@/style/style.css', lang: 'css'}
   ],
 
   /*
-  ** Plugins to load before mounting the App
+  ** 在安装app之前，加载插件
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    {
+      src: '~plugins/nuxt-quill-plugin.js',
+      ssr: false //仅在客户端渲染
+    }
+
   ],
 
   /*
@@ -59,7 +70,10 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
-    }
+
+    },
+
+
+
   }
 }

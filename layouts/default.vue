@@ -1,55 +1,142 @@
 <template>
-  <div>
-    <nuxt/>
+  <div id="app">
+    <el-row :gutter="0">
+      <el-col class="nav">
+        <el-col class="nav-bar" :sx="22" :sm="22" :md="22" :lg="16">
+          <div class="nav-bar-body">
+            <div class="nav-bar-inner">
+              <div id="logo">
+                <img
+                  src="../assets/logoa.png"/>
+              </div>
+            </div>
+            <div>
+              <div id="search">
+                <el-input placeholder="搜索" :on-icon-click="searchArticle" v-model="search"
+                          @keyup.enter.native="keyupsearch($event)">
+                  <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                </el-input>
+              </div>
+            </div>
+          </div>
+          <div class="navmenu">
+            <template>
+              <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane v-for="item in taglists" :key=item :label='item' :name="item" data-ripple></el-tab-pane>
+              </el-tabs>
+              <el-button type="primary" icon="el-icon-edit" id="addacticlebtn" @click="loginpage">Ti Bug</el-button>
+            </template>
+          </div>
+        </el-col>
+      </el-col>
+      <el-col :xs="24" :sm="22" :md="22" :lg="16" class="container_article">
+        <div class="main">
+          <nuxt/>
+        </div>
+      </el-col>
+    </el-row>
+    <div class="footer">京ICP备xxxxxxxx号</div>
   </div>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
+<script>
+  import axios from 'axios'
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
+  export default {
+    name: 'app',
+    data() {
+      return {
+        taglists: ['全部'],
+        search: '',
+        activeName: ''
+      }
+    },
+    mounted() {
+      var _hmt = _hmt || []
+      // (function() {
+      //   var hm = document.createElement("script");
+      //   hm.src = "https://hm.baidu.com/hm.js?66af132474dd9a5c2ebd172d8d08e81b";
+      //   var s = document.getElementsByTagName("script")[0];
+      //   s.parentNode.insertBefore(hm, s);
+      // })();
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
+      this.taglist()
+      var winwinth = window.innerWidth
+      if (this.$route.params.tag === undefined && this.$route.fullPath === '/') {
+        this.activeName = '全部'
+      } else {
+        this.activeName = this.$route.params.tag
+      }
+    },
+    methods: {
+      taglist() {
+        // axios.get('/api/getArticleLabel').then(
+        //   respone => {
+        //
+        //   });
+        var dataMock = {
+          'err': 200,
+          'tagList': [
+            {
+              '_id': '5986ecfbb5cf41359eefbeb9',
+              'tagName': '.NetCore专题',
+              'tagNumber': 19,
+              '__v': 0
+            },
+            {
+              '_id': '598726a325dbfe37b61e2d7e',
+              'tagName': 'VUE专题',
+              'tagNumber': 3,
+              '__v': 0
+            },
+            {
+              '_id': '598f20325c1db5098e6e1f84',
+              'tagName': 'SqlSugar专题',
+              'tagNumber': 2,
+              '__v': 0
+            },
+            {
+              '_id': '598f204d5c1db5098e6e1f85',
+              'tagName': 'DDD专题',
+              'tagNumber': 1,
+              '__v': 0
+            },
+            {
+              '_id': '59917434b7f98169b30efa23',
+              'tagName': 'Nuxt专题',
+              'tagNumber': 5,
+              '__v': 0
+            }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
+          ]
+        }
+        const tagList = (dataMock.tagList || []).map(item => item.tagName)
+        this.taglists = ['全部', ...tagList]
+      },
+      keyupsearch(ev) {
+        if (ev.keyCode === 13) {
+          this.searchArticle()
+        }
+      },
+      handleClick(tab) {
+        const { index } = tab
+        this.$router.push({ path: `/${index == 0 ? '' : tab.name}` })
+      },
+      searchArticle() {
+        const trimSearch = this.search.trim()
+        if (!trimSearch) {
+          return this.$notify.info({
+            title: '提示',
+            message: '您还未输入搜索内容',
+            offset: 100
+          })
+        }
+        this.$router.push({ path: `/search/${this.search}` })
+      },
+      loginpage() {
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
-</style>
+        this.$router.push({ path: `/tibug`});
+      }
+    }
+  }
+</script>
