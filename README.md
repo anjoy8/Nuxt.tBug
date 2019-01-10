@@ -1,4 +1,4 @@
-
+﻿
 <img src="https://github.com/anjoy8/Nuxt.tBug/blob/master/assets/logoa.png" width="350"  />
 
       
@@ -32,14 +32,14 @@
 npm run dev
 ```
 
-**本地访问http://localhost:3088**
+**本地访问http://localhost:3089**
 ```
 可以在 package.json 中修改端口：
 
   "config": {
     "nuxt": {
       "host": "127.0.0.1",
-      "port": "3088"
+      "port": "3089"
     }
   },
   

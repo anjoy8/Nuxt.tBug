@@ -103,7 +103,7 @@
             this.progress = complete
           }
         } // 添加请求头
-        this.isLoading = true
+        // this.isLoading = true
         let res = await axios.post('http://10.96.153.89:5000/', formdata, config)
         this.isLoading = false
         console.log(res)
@@ -117,19 +117,19 @@
           event_id: this.event_id
         }
         console.log(params)
-        let res = await axios.post('/api/createEvent', params)
-        if (res.data.ret) {
-          this.$notify.error({
-            message: res.data.errorMsg,
-            title: '错误'
-          })
-        } else {
-          this.$notify({
-            message: res.data.errorMsg,
-            title: '成功',
-            type: 'success'
-          })
-        }
+        // let res = await axios.post('/api/createEvent', params)
+        // if (res.data.ret) {
+        //   this.$notify.error({
+        //     message: res.data.errorMsg,
+        //     title: '错误'
+        //   })
+        // } else {
+        //   this.$notify({
+        //     message: res.data.errorMsg,
+        //     title: '成功',
+        //     type: 'success'
+        //   })
+        // }
       }
     },
     async mounted () {
@@ -137,11 +137,12 @@
       let params = {
         event_id: this.$route.query.event_id
       }
-      let res = await axios.get('/api/getEvemtDetail', {params: params})
-      let event = res.data.data
-      this.form.title = event.title
-      this.form.publish_time = event.publish_time
-      this.content = event.content
+      this.isLoading = false
+      // let res = await axios.get('/api/getEvemtDetail', {params: params})
+      // let event = res.data.data
+      // this.form.title = event.title
+      // this.form.publish_time = event.publish_time
+      // this.content = event.content
     }
   }
 
