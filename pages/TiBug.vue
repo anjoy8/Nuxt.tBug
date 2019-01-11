@@ -1,150 +1,77 @@
 <template>
   <div>
-
-    <section class="container"
-             v-loading="isLoading"
-             :element-loading-text="'上传进度'+ progress"
-             element-loading-spinner="el-icon-loading"
-             element-loading-background="rgba(0, 0, 0, 0.8)">
-      <input class="file" type="file" style="display:none" id="file" ref="input" @change="doUpload">
-      <div class="quill-editor"
-           :content="content"
-           @change="onEditorChange($event)"
-           @blur="onEditorBlur($event)"
-           @focus="onEditorFocus($event)"
-           @ready="onEditorReady($event)"
-           v-quill:myQuillEditor="editorOption">
-      </div>
-    </section>
-
+    <no-ssr><mavon-editor :toolbars="markdownOption" v-model="handbook"  ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" /></no-ssr>
   </div>
 </template>
-
-
 <script>
-  import axios from '~/plugins/axios'
-
-
   export default {
-    data () {
-      const self = this
+    data() {
       return {
-        isLoading: false,
-        content:"",
-        progress:null,
-        editorOption: {
-          // some quill options
-          modules: {
-            toolbar: {
-              container: [
-                ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-                ['blockquote', 'code-block'],
-                ['link', 'image'],
-
-                [{'header': 1}, {'header': 2}], // custom button values
-                [{'list': 'ordered'}, {'list': 'bullet'}],
-                [{'script': 'sub'}, {'script': 'super'}], // superscript/subscript
-                [{'indent': '-1'}, {'indent': '+1'}], // outdent/indent
-                [{'direction': 'rtl'}], // text direction
-
-                [{'size': ['small', false, 'large', 'huge']}], // custom dropdown
-                [{'header': [1, 2, 3, 4, 5, 6, false]}],
-
-                [{'color': []}, {'background': []}], // dropdown with defaults from theme
-                [{'font': []}],
-                [{'align': []}],
-
-                ['clean'] // remove formatting button
-              ],
-              handlers: {
-                'image': function () {
-                  this.quill.format('image', false)// 禁用quill内部上传图片方法
-                  self.imgHandler(this)
-                }
-              }
-            }
-          }
-        }
+        markdownOption: {
+          bold: true, // 粗体
+          italic: true, // 斜体
+          header: true, // 标题
+          underline: true, // 下划线
+          strikethrough: true, // 中划线
+          mark: true, // 标记
+          superscript: true, // 上角标
+          subscript: true, // 下角标
+          quote: true, // 引用
+          ol: true, // 有序列表
+          ul: true, // 无序列表
+          link: true, // 链接
+          imagelink: true, // 图片链接
+          code: true, // code
+          table: true, // 表格
+          fullscreen: false, // 全屏编辑
+          readmodel: false, // 沉浸式阅读
+          htmlcode: true, // 展示html源码
+          help: true, // 帮助
+          undo: true, // 上一步
+          redo: true, // 下一步
+          trash: true, // 清空
+          save: true, // 保存（触发events中的save事件）
+          navigation: true, // 导航目录
+          alignleft: true, // 左对齐
+          aligncenter: true, // 居中
+          alignright: true, // 右对齐
+          subfield: true, // 单双栏模式
+          preview: true, // 预览
+        },
+        handbook: "#### 这是手册",
       }
     },
     methods: {
-      handleRemove (file, fileList) {
-        console.log(file, fileList)
+      // 绑定@imgAdd event
+      $imgAdd(pos, $file){
+        // 第一步.将图片上传到服务器.
+        var formdata = new FormData();
+        formdata.append('image', $file);
+        axios({
+          url: 'server url',
+          method: 'post',
+          data: formdata,
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }).then((url) => {
+          // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
+          /**
+           * $vm 指为mavonEditor实例，可以通过如下两种方式获取
+           * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，`$vm`为`mavonEditor`
+           * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
+           */
+          $vm.$img2Url(pos, url);
+        })
       },
-      handlePreview (file) {
-        console.log(file)
+      $imgDel(file) {
+        this.markdownIt.image_del(file[0]);
+        // 删除所有markdown中的图片
+        let fileReg = file[1]
+        let reg = new RegExp(`\\!\\[${file[0]._name}\\]\\(${fileReg}\\)`, "g")
+        this.d_value = this.d_value.replace(reg, '');
+        this.iRender();
+        this.$emit('imgDel', file);
       },
-      onEditorBlur (editor) {
-        console.log('editor blur!', editor)
-      },
-      onEditorFocus (editor) {
-        console.log('editor focus!', editor)
-      },
-      onEditorReady (editor) {
-        console.log('editor ready!', editor)
-      },
-      onEditorChange ({editor, html, text}) {
-        console.log('editor change!', editor, html, text)
-        this.content = html
-      },
-      imgHandler (handle) {
-        this.quill = handle.quill
-        var inputfile = document.getElementById('file')
-        inputfile.click()
-      },
-      doUpload: async function () {
-        let file = document.getElementById('file').files[0]
-        let formdata = new FormData()// 创建form对象
-        formdata.append('file', file, file.name)
-        let config = {
-          headers: {'Content-Type': 'multipart/form-data'},
-          onUploadProgress: progressEvent => {
-            let complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-            this.progress = complete
-          }
-        } // 添加请求头
-        // this.isLoading = true
-        let res = await axios.post('http://10.96.153.89:5000/', formdata, config)
-        this.isLoading = false
-        console.log(res)
-        this.quill.insertEmbed(length, 'image', 'http://10.96.153.89:5000' + res.data)
-      },
-      async update () {
-        let params = {
-          title: this.form.title,
-          publish_time: this.form.publish_time,
-          content: this.content,
-          event_id: this.event_id
-        }
-        console.log(params)
-        // let res = await axios.post('/api/createEvent', params)
-        // if (res.data.ret) {
-        //   this.$notify.error({
-        //     message: res.data.errorMsg,
-        //     title: '错误'
-        //   })
-        // } else {
-        //   this.$notify({
-        //     message: res.data.errorMsg,
-        //     title: '成功',
-        //     type: 'success'
-        //   })
-        // }
-      }
-    },
-    async mounted () {
-      this.event_id = this.$route.query.event_id
-      let params = {
-        event_id: this.$route.query.event_id
-      }
-      this.isLoading = false
-      // let res = await axios.get('/api/getEvemtDetail', {params: params})
-      // let event = res.data.data
-      // this.form.title = event.title
-      // this.form.publish_time = event.publish_time
-      // this.content = event.content
     }
+
   }
-
-
 </script>

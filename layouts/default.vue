@@ -5,7 +5,7 @@
         <el-col class="nav-bar" :sx="22" :sm="22" :md="22" :lg="16">
           <div class="nav-bar-body">
             <div class="nav-bar-inner">
-              <div id="logo">
+              <div id="logo" @click="homepage">
                 <img
                   src="../assets/logoa.png"/>
               </div>
@@ -136,6 +136,10 @@
       loginpage() {
 
         this.$router.push({ path: `/tibug`});
+      },
+      homepage() {
+
+        this.$router.push({ path: `/`});
       }
     }
   }

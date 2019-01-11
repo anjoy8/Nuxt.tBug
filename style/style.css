@@ -405,7 +405,7 @@ html {
 
 #logo img {
   /*width: 70%;*/
-
+  cursor: pointer;
   height: 60px;
   width: 200px;
 }

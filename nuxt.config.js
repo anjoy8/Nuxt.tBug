@@ -29,10 +29,7 @@ module.exports = {
   */
   css: [
     'element-ui/lib/theme-chalk/index.css',
-    'quill/dist/quill.snow.css',
-    'quill/dist/quill.bubble.css',
-    'quill/dist/quill.core.css',
-
+    { src: "mavon-editor/dist/css/index.css" },
     {src: '@/style/style.css', lang: 'css'}
   ],
 
@@ -42,7 +39,7 @@ module.exports = {
   plugins: [
     '@/plugins/element-ui',
     {
-      src: '~plugins/nuxt-quill-plugin.js',
+      src: '~plugins/nuxt-markdown.js',
       ssr: false //仅在客户端渲染
     }
 

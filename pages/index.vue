@@ -212,6 +212,12 @@
     components: {
       ArticleList
     },
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll);
+      if (window.loading) {
+        window.loading.close();
+      }
+    },
     methods: {
       nextpage() {
 
