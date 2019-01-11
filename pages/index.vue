@@ -21,6 +21,7 @@
 
 <script>
   import ArticleList from '../components/ArticleList';
+  import axios from '~/plugins/axios'
 
   export default {
     head () {
@@ -45,165 +46,13 @@
     async asyncData ({params}) {
       try {
         const {tag} = params;
-        let Article=[
-          {
-            "label": [
-              "vue",
-              "html5"
-            ],
-            "user": [
-              {
-                "name": "lao zhang"
-              }
-            ],
-            "_id": "5aed92f028e94e763ff29ede",
-            "title": "注入失败：Unable to resolve service for type 'xxx' while attempting to activate 'xxx.controller'",
-            "date": "2018-05-05",
-            "state": "publish",
-            "introduce": "这个是依赖注入中出现的问题，在将接口注入到控制器的时候",
-            "tag": "vue",
-            "__v": 0
-          },
+        const { data: { article } } = await axios.get(`/api/TopicDetail?page=1`)
 
-          {
-            "label": [
-              "vue",
-              "html5"
-            ],
-            "user": [
-              {
-                "name": "lao zhang"
-              }
-            ],
-            "_id": "5aed91f028e94e763ff29ede1",
-            "title": "注入失败：Unable to resolve service for type 'xxx' while attempting to activate 'xxx.controller'",
-            "date": "2018-05-05",
-            "state": "publish",
-            "introduce": "这个是依赖注入中出现的问题，在将接口注入到控制器的时候",
-            "tag": "vue",
-            "__v": 0
-          },
-
-          {
-            "label": [
-              "vue",
-              "html5"
-            ],
-            "user": [
-              {
-                "name": "lao zhang"
-              }
-            ],
-            "_id": "5aed92f028e94e763ff29ede2",
-            "title": "注入失败：Unable to resolve service for type 'xxx' while attempting to activate 'xxx.controller'",
-            "date": "2018-05-05",
-            "state": "publish",
-            "introduce": "这个是依赖注入中出现的问题，在将接口注入到控制器的时候",
-            "tag": "vue",
-            "__v": 0
-          },
-
-          {
-            "label": [
-              "vue",
-              "html5"
-            ],
-            "user": [
-              {
-                "name": "lao zhang"
-              }
-            ],
-            "_id": "5aed92f028e94e763ff29ede3",
-            "title": "注入失败：Unable to resolve service for type 'xxx' while attempting to activate 'xxx.controller'",
-            "date": "2018-05-05",
-            "state": "publish",
-            "introduce": "这个是依赖注入中出现的问题，在将接口注入到控制器的时候",
-            "tag": "vue",
-            "__v": 0
-          },
-
-          {
-            "label": [
-              "vue",
-              "html5"
-            ],
-            "user": [
-              {
-                "name": "lao zhang"
-              }
-            ],
-            "_id": "5aed92f028e94e763ff29ede4",
-            "title": "注入失败：Unable to resolve service for type 'xxx' while attempting to activate 'xxx.controller'",
-            "date": "2018-05-05",
-            "state": "publish",
-            "introduce": "这个是依赖注入中出现的问题，在将接口注入到控制器的时候",
-            "tag": "vue",
-            "__v": 0
-          },
-
-          {
-            "label": [
-              "vue",
-              "html5"
-            ],
-            "user": [
-              {
-                "name": "lao zhang"
-              }
-            ],
-            "_id": "5aed92f028e94e763ff29ede5",
-            "title": "注入失败：Unable to resolve service for type 'xxx' while attempting to activate 'xxx.controller'",
-            "date": "2018-05-05",
-            "state": "publish",
-            "introduce": "这个是依赖注入中出现的问题，在将接口注入到控制器的时候",
-            "tag": "vue",
-            "__v": 0
-          },
-
-          {
-            "label": [
-              "vue",
-              "html5"
-            ],
-            "user": [
-              {
-                "name": "lao zhang"
-              }
-            ],
-            "_id": "5aed92f028e94e763ff29ede6",
-            "title": "注入失败：Unable to resolve service for type 'xxx' while attempting to activate 'xxx.controller'",
-            "date": "2018-05-05",
-            "state": "publish",
-            "introduce": "这个是依赖注入中出现的问题，在将接口注入到控制器的时候",
-            "tag": "vue",
-            "__v": 0
-          },
-
-          {
-            "label": [
-              "vue",
-              "html5"
-            ],
-            "user": [
-              {
-                "name": "lao zhang"
-              }
-            ],
-            "_id": "5aed92f028e94e763ff29ede7",
-            "title": "注入失败：Unable to resolve service for type 'xxx' while attempting to activate 'xxx.controller'",
-            "date": "2018-05-05",
-            "state": "publish",
-            "introduce": "这个是依赖注入中出现的问题，在将接口注入到控制器的时候",
-            "tag": "vue",
-            "__v": 0
-          },
-
-        ]
         return {
-          articleList: Article,
+          articleList: article,
           tagtitle: tag,
           fadetitle: true,
-          notfound: !Article.length
+          notfound: !article.length
         };
       } catch (err) {
         // error({statusCode: 404})

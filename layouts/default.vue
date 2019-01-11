@@ -22,7 +22,7 @@
           <div class="navmenu">
             <template>
               <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane v-for="item in taglists" :key=item :label='item' :name="item" data-ripple></el-tab-pane>
+                <el-tab-pane v-for="item in taglists" :key=item :label='item+"专题"' :name="item" data-ripple></el-tab-pane>
               </el-tabs>
               <el-button type="primary" icon="el-icon-edit" id="addacticlebtn" @click="loginpage">Ti Bug</el-button>
             </template>
@@ -70,48 +70,11 @@
     },
     methods: {
       taglist() {
-        // axios.get('/api/getArticleLabel').then(
-        //   respone => {
-        //
-        //   });
-        var dataMock = {
-          'err': 200,
-          'tagList': [
-            {
-              '_id': '5986ecfbb5cf41359eefbeb9',
-              'tagName': '.NetCore专题',
-              'tagNumber': 19,
-              '__v': 0
-            },
-            {
-              '_id': '598726a325dbfe37b61e2d7e',
-              'tagName': 'VUE专题',
-              'tagNumber': 3,
-              '__v': 0
-            },
-            {
-              '_id': '598f20325c1db5098e6e1f84',
-              'tagName': 'SqlSugar专题',
-              'tagNumber': 2,
-              '__v': 0
-            },
-            {
-              '_id': '598f204d5c1db5098e6e1f85',
-              'tagName': 'DDD专题',
-              'tagNumber': 1,
-              '__v': 0
-            },
-            {
-              '_id': '59917434b7f98169b30efa23',
-              'tagName': 'Nuxt专题',
-              'tagNumber': 5,
-              '__v': 0
-            }
-
-          ]
-        }
-        const tagList = (dataMock.tagList || []).map(item => item.tagName)
-        this.taglists = ['全部', ...tagList]
+        axios.get('/api/Topic').then(
+          respone => {
+            const tagList = (respone.data.data || []).map(item => item.tName)
+            this.taglists = ['全部', ...tagList]
+          })
       },
       keyupsearch(ev) {
         if (ev.keyCode === 13) {
@@ -135,11 +98,11 @@
       },
       loginpage() {
 
-        this.$router.push({ path: `/tibug`});
+        this.$router.push({ path: `/tibug` })
       },
       homepage() {
 
-        this.$router.push({ path: `/`});
+        this.$router.push({ path: `/` })
       }
     }
   }

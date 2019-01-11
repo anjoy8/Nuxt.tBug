@@ -1,6 +1,33 @@
 <template>
-  <div>
-    <no-ssr><mavon-editor :toolbars="markdownOption" v-model="handbook"  ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" /></no-ssr>
+  <div >
+    <el-form ref="form" :model="form" label-width="80px" style="padding-top: 20px;">
+      <el-form-item label="简要描述">
+        <el-input v-model="form.title"></el-input>
+      </el-form-item>
+      <el-form-item label="作者昵称">
+        <el-input v-model="form.name"></el-input>
+      </el-form-item>
+      <el-form-item label="是否解决">
+        <el-switch v-model="form.delivery"></el-switch>
+      </el-form-item>
+
+      <el-form-item label="专题分类">
+        <el-select v-model="form.region" placeholder="请选择专题分类">
+          <el-option label=".NetCore专题" value=".NetCore专题"></el-option>
+          <el-option label="VUE专题" value="VUE专题"></el-option>
+          <el-option label="DDD专题" value="DDD专题"></el-option>
+          <el-option label="SqlSugar专题" value="SqlSugar专题"></el-option>
+          <el-option label="Nuxt专题" value="Nuxt专题"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="正文内容">
+        <no-ssr><mavon-editor :toolbars="markdownOption" v-model="form.content"  ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" /></no-ssr>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+      </el-form-item>
+    </el-form>
+
   </div>
 </template>
 <script>
@@ -38,10 +65,31 @@
           subfield: true, // 单双栏模式
           preview: true, // 预览
         },
+        form: {
+          title: '',
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: true,
+          type: [],
+          resource: '',
+          content: '',
+          desc: ''
+        },
         handbook: "#### 这是手册",
       }
     },
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll);
+      if (window.loading) {
+        window.loading.close();
+      }
+    },
     methods: {
+      onSubmit() {
+        console.log(this.form);
+      },
       // 绑定@imgAdd event
       $imgAdd(pos, $file){
         // 第一步.将图片上传到服务器.

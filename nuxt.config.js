@@ -23,6 +23,9 @@ module.exports = {
   ** 自定义加载条的样式
   */
   loading: { color: '#44C1B8', height: '4px' },
+  vender:[
+    'element-ui', 'axios', '~untils/index.js'
+  ],
 
   /*
   ** 全局CSS
@@ -50,7 +53,8 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy'
   ],
   /*
   ** Axios module configuration
@@ -72,5 +76,9 @@ module.exports = {
 
 
 
-  }
+  },
+  proxy: [
+     ['/api', { target: 'http://localhost:5000' }],
+    // ['/api', { target: 'http://binlive.cn:3080' }],
+  ]
 }

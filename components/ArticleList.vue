@@ -1,24 +1,23 @@
 <template>
   <div class="articleList">
     <el-row :gutter="20" style="padding-bottom:12px">
-      <el-col :xs="24" :sm="24" :md="24" :lg="12"  v-for="item in articleList" :key="item._id" class="artitem" >
-        <div @click="articlesDetailsFn(item._id)">
+      <el-col :xs="24" :sm="24" :md="24" :lg="12"  v-for="item in articleList" :key="item.id" class="artitem" >
+        <div @click="articlesDetailsFn(item.id)">
           <div class="box-card articles-box" >
             <div class="post-time">
-              <span class="post-timecon">{{item.date}}</span>
+              <span class="post-timecon">{{item.tdCreatetime}}</span>
             </div>
             <div class="post-title" >
-              <h1>{{item.title}}</h1>
+              <h1>{{item.tdName}}</h1>
             </div>
             <div class="post-abstract">
-              {{item.introduce}}
+              {{item.tdDetail}}
             </div>
           </div>
           <div class="artitem_bottom">
-            <div class="poster" v-for="list in item.user" :key="list.id">
-            </div>
+            <div class="poster"  >{{item.tdAuthor}} </div>
             <div class="post-label-box">
-              <span class="post-label" v-for="list in item.label" :key="list.id">{{list}}</span>
+              <span class="post-label" >{{item.tdSectendDetail}}</span>
             </div>
           </div>
         </div>
@@ -55,10 +54,12 @@
 <style>
   .poster {
     float: left;
-    width: 30px;
+    width: 90px;
+    padding-top: 5px;
+    padding-left: 5px;
     height: 30px;
     margin-top: 1px;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     overflow: hidden;
     box-shadow: 3px 2px 4px rgba(36, 61, 107, .2);
   }
