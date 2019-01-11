@@ -31,6 +31,8 @@
   </div>
 </template>
 <script>
+  import axios from '~/plugins/axios'
+
   export default {
     data() {
       return {
@@ -96,7 +98,7 @@
         var formdata = new FormData();
         formdata.append('image', $file);
         axios({
-          url: 'server url',
+          url: '/api/Img/Pic',
           method: 'post',
           data: formdata,
           headers: { 'Content-Type': 'multipart/form-data' },
