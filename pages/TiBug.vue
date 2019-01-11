@@ -109,7 +109,7 @@
            * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，`$vm`为`mavonEditor`
            * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
            */
-          $vm.$img2Url(pos, url);
+          this.$refs.md.$img2Url(pos, "http://localhost:3089/"+url.data.url);
         })
       },
       $imgDel(file) {
