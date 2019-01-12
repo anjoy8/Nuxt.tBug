@@ -49,14 +49,14 @@
         let { data } = await axios.get(`/api/TopicDetail/24`)
         console.log(data)
 
-        const { data: { article } } = await axios.get(`/api/TopicDetail?page=1`)
-        console.log(article)
+        const { data: { response } } = await axios.get(`/api/TopicDetail?page=1`)
+        console.log(response)
 
         return {
-          articleList: article,
+          articleList: response.data,
           tagtitle: tag,
           fadetitle: true,
-          notfound: !article.length
+          notfound: !response.data.length
         }
       } catch (err) {
         //error({statusCode: 404})
@@ -73,7 +73,28 @@
     },
     methods: {
       nextpage() {
+        if (this.lastpage) {
+          const {newArticlelist} = this.$store.state;
+          if (newArticlelist.length) {
+            this.page = Math.ceil(newArticlelist.length / 6);
+          } else {
+            this.page++;
+          }
+          axios.get(`/api/TopicDetail?page=1${this.page}`)
+            .then(res => {
 
+              const Articles = res.data.response.data;
+              this.articleList = [...this.articleList, ...Articles];
+              this.ScrollFirst = true;
+              this.scrolltip = false;
+              this.scrollload = true;
+              if (Articles.length < 10) {
+                this.lastpage = false;
+                this.scrollloadlast = true;
+              }
+              this.$store.commit('updatenewlistcon', this.articleList);
+            });
+        }
       },
       articlesDetailsFn: function(id) {
         this.$router.push({ path: `/details/${id}` })

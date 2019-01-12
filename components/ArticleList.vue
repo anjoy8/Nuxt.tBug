@@ -61,7 +61,7 @@
     margin-top: 1px;
     /* border-radius: 50%; */
     overflow: hidden;
-    box-shadow: 3px 2px 4px rgba(36, 61, 107, .2);
+    /*box-shadow: 3px 2px 4px rgba(36, 61, 107, .2);*/
   }
   .poster img {
     width: 100%;

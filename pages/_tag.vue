@@ -5,7 +5,7 @@
     </div>
     <ArticleList :articleList="tagList"/>
     <div class="notfound" :class="{'shownotfound':notfound}">
-      <img src="http://img.binlive.cn/upload/1525014468729"
+      <img src="../assets/nofound.png"
            alt="binlive个人技术博客vue、react、node">
     </div>
     <div class="scrollbottomtip">
@@ -40,7 +40,7 @@
     },
     data() {
       return {
-        page: 0,
+        page: 1,
         lastpage: true,
         ScrollFirst: true,
         scrolltip: false,
@@ -51,14 +51,14 @@
     asyncData: async function({ params }) {
       try {
         const { tag } = params
-        const { data: { article } } = await axios.get(`/api/TopicDetail?page=1&tname=${escape(tag)}`)
+        const { data: { response } } = await axios.get(`/api/TopicDetail?page=1&tname=${escape(tag)}`)
 
 
         return {
-          tagList: article,
+          tagList: response.data,
           tagtitle: tag,
           fadetitle: true,
-          notfound: !article.length
+          notfound: !response.data.length
         };
 
 
@@ -78,16 +78,16 @@
     methods: {
       nextpage() {
         const tag = this.$route.params.tag
-        if (this.lastpage && false) {
+        if (this.lastpage) {
           this.page++
           const page = this.page
-          axios.get(`/api/getArticleLabel/${tag}/${page}`)
+          axios.get(`/api/TopicDetail?page=${page}&tname=${tag}`)
             .then(res => {
-              this.tagList = [...this.tagList, ...res.data.Article]
+              this.tagList = [...this.tagList, ...res.data.response.data]
               this.ScrollFirst = true
               this.scrolltip = false
               this.scrollload = true
-              if (res.data.Article.length < 10) {
+              if (res.data.response.data.length < 6) {
                 this.lastpage = false
                 this.scrolltip = true
                 this.scrollloadlast = true
@@ -101,7 +101,7 @@
       handleScroll() {
         let jrscrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollT
         let scrollBottom = document.body.clientHeight - window.innerHeight - jrscrollTop
-        if (scrollBottom < 10) {
+        if (scrollBottom < 6) {
           if (this.ScrollFirst) {
             this.scrolltip = true
             this.scrollload = false
@@ -129,12 +129,12 @@
 
   .notfound {
     width: 100%;
-    padding-top: 40px;
+    /*padding-top: 40px;*/
     display: none
   }
 
   .notfound img {
-    width: 60%;
+    width: 40%;
     margin: 0 auto;
     display: block
   }
