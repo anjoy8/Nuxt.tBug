@@ -1,27 +1,27 @@
 <template>
   <div >
     <el-form ref="form" :model="form" label-width="80px" style="padding-top: 20px;">
+      <el-form-item label="问题标题">
+        <el-input v-model="form.tdName"></el-input>
+      </el-form-item>
       <el-form-item label="简要描述">
-        <el-input v-model="form.title"></el-input>
+        <el-input v-model="form.tdDetail"></el-input>
       </el-form-item>
       <el-form-item label="作者昵称">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.tdAuthor"></el-input>
       </el-form-item>
       <el-form-item label="是否解决">
-        <el-switch v-model="form.delivery"></el-switch>
+        <el-switch v-model="form.isok"></el-switch>
       </el-form-item>
 
       <el-form-item label="专题分类">
-        <el-select v-model="form.region" placeholder="请选择专题分类">
-          <el-option label=".NetCore专题" value=".NetCore专题"></el-option>
-          <el-option label="VUE专题" value="VUE专题"></el-option>
-          <el-option label="DDD专题" value="DDD专题"></el-option>
-          <el-option label="SqlSugar专题" value="SqlSugar专题"></el-option>
-          <el-option label="Nuxt专题" value="Nuxt专题"></el-option>
+        <el-select v-model="form.TopicId" placeholder="请选择专题分类">
+          <el-option v-for="item in taglists" :key=item.id :label='item.tName+"专题"' :value="item.id"  ></el-option>
+
         </el-select>
       </el-form-item>
       <el-form-item label="正文内容">
-        <no-ssr><mavon-editor :toolbars="markdownOption" v-model="form.content"  ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" /></no-ssr>
+        <no-ssr><mavon-editor :toolbars="markdownOption" v-model="form.tdContent"  ref=md @imgAdd="$imgAdd" /></no-ssr>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -68,32 +68,104 @@
           preview: true, // 预览
         },
         form: {
-          title: '',
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: true,
-          type: [],
-          resource: '',
-          content: '',
-          desc: ''
+          tdName: '',
+          tdDetail:'',
+          tdAuthor: '',
+          isok: true,
+          tdContent: '',
+          TopicId:"",
+          tdSectendDetail:"tbug",
+          Id:0,
         },
+        taglists: [],
         handbook: "#### 这是手册",
       }
     },
     mounted() {
+      this.taglist()
       window.addEventListener('scroll', this.handleScroll);
       if (window.loading) {
         window.loading.close();
       }
     },
     methods: {
+      taglist() {
+        axios.get('/api/Topic').then(
+          respone => {
+            const tagList = (respone.data.data || [])
+            this.taglists = tagList
+          })
+      },
       onSubmit() {
         console.log(this.form);
+        let that=this;
+        let formdata=this.form;
+
+        if (!formdata.tdName) {
+          this.$message({
+            message: '请输入简要描述',
+            type: 'warning'
+          });
+          return;
+        }
+        if (!formdata.tdAuthor) {
+          this.$message({
+            message: '请输入你的昵称',
+            type: 'warning'
+          });
+          return;
+        }
+        if (!formdata.isok) {
+          this.$message({
+            message: '暂时还不能添加未解决的Bug哟',
+            type: 'warning'
+          });
+          return;
+        }
+        if (!(formdata.TopicId>0)) {
+          this.$message({
+            message: '请选择专题分类',
+            type: 'warning'
+          });
+          return;
+        }
+        if (!formdata.tdContent) {
+          this.$message({
+            message: '请填写正文内容',
+            type: 'warning'
+          });
+          return;
+        }
+
+        axios({
+          url: '/api/TopicDetail',
+          method: 'post',
+          data: formdata,
+        }).then((response) => {
+          debugger
+          if (response.data.success) {
+            that.$notify({
+              title: '成功',
+              message: response.data.msg,
+              type: 'success'
+            });
+
+            this.$router.push({ path: `/details/${response.data.response}`});
+
+
+          }else{
+            that.$notify.error({
+              title: '错误',
+              message: response.data.msg
+            });
+
+          }
+        })
+
       },
       // 绑定@imgAdd event
       $imgAdd(pos, $file){
+        let that=this;
         // 第一步.将图片上传到服务器.
         var formdata = new FormData();
         formdata.append('image', $file);
@@ -109,7 +181,8 @@
            * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，`$vm`为`mavonEditor`
            * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
            */
-          this.$refs.md.$img2Url(pos, "http://localhost:3089/"+url.data.url);
+          debugger
+          that.$refs.md.$img2Url(pos, "http://localhost:3089/"+url.data.response);
         })
       },
       $imgDel(file) {

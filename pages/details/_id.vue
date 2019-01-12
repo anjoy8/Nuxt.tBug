@@ -1,12 +1,12 @@
 <template>
   <div id="articlesDetails" class="fadein">
     <div class="detail-header">
-      <h1>{{articleDetails.title}}</h1>
+      <h1>{{response.tdName}}</h1>
       <div class="time">
-        {{new Date(articleDetails.date).format('yyyy-MM-dd')}}
+        {{new Date(response.tdCreatetime).format('yyyy-MM-dd')}}
       </div>
       <div class="detail-body-tag">
-        <span v-for="list in articleDetails.label" :key="list" class="tag">{{list}}</span>
+        <!--<span v-for="list in articleDetails.label" :key="list" class="tag">{{list}}</span>-->
       </div>
     </div>
     <div class="detail-body" v-html="markHtml"></div>
@@ -24,7 +24,9 @@
 <script>
   import {dateFormat} from '../../utils/index';
   import marked from 'marked';
-  import axios from '~/plugins/axios';
+
+  import Vue from "vue";
+
   import highlight from 'highlight.js/lib/highlight'
   import javascript from 'highlight.js/lib/languages/javascript';
   import css from 'highlight.js/lib/languages/css';
@@ -45,46 +47,8 @@
     async asyncData ({params, error}) {
       try {
         const {id} = params;
-        // const {data: {articleDetails}} = await axios.get('/api/articleDetails/'+ id);
-        let articleDetails={
-          "label": [
-            "vue",
-            "html5"
-          ],
-          "user": [
-            {
-              "name": "lao zhang"
-            }
-          ],
-          "comment": [],
-          "_id": "5aed92f028e94e763ff29ede",
-          "title": "vue图片上传预览裁剪组件，支持移动端放大缩小平移。",
-          "articleContent": "# 一级标题\n" +
-            "![微信图片_20190106182244.png](\\images\\0112004235微信图片_20190106182244.png)\n" +
-            "\n|column1|column2|column3|\n" +
-            "|-|-|-|\n" +
-            "|content1|content2|content3|\n" +
-            "\"++下划线++\n" +
-            "## 二级标题\n" +
-            "1. 333\n" +
-            "\n|column1|column2|column3|\n" +
-            "|-|-|-|\n" +
-            "|content1|content2|content3|\n" +
-            "![logos.png](http://localhost:5000/images\\0112003000logos.png)\n" +
-            "|column1|column2|column3|\n" +
-            "|-|-|-|\n" +
-            "|content1|content2|content3|\n" +
-            "#### vue-imageClip ####\n\nvue图片上传预览裁剪组件，支持移动端放大缩小平移。零、实现红色的部分\n" +
-            "\n项目加载欢迎页面\n " +
-            "二、首页结构布局\n\n**[Github地址](https://github.com/Hzy0913/vue-imageClip \"Github地址\")**\n\n### 在线预览 ###\n[在线预览地址](http://admin.binlive.cn/mavatar \"预览地址\")\n\n##### 二维码预览\n[![qrcode](http://img.binlive.cn/upload/1521910380734 \"qrcode\")](http://img.binlive.cn/upload/1521910380734 \"qrcode\")\n### 使用 ###\n安装\n\n    $ npm install vue-imgclip\n引入\n\n    import VimageClip from 'vue-imgclip'\n\n注册组件后创建`<VimageClip />`标签\n\n      // script\n      components: {\n        VimageClip\n      }\n\n\t  // html\n\t  <VimageClip @imageClipper=\"handleclip\"/>\n\n\n### 方法 ###\n\n\n图片裁剪: @imageClipper=\"handleclip\"\n图片裁剪方法，回调中可以获取裁剪完成base64和图片原始信息。\n\n      methods: {\n        handleclip(data) {\n          console.log(data);\n        }\n      }\n### 组件参数 ###\n\n    <VimageClip\n      width=\"300px\"\n      height=\"300px\"\n      backgroundColor=\"#ff6633\"\n      :hd=false\n      :control=\"true\"\n      :buttonValue='{ clipText: \"裁剪\", clipClass: \"clip-button\"}'\n      @imageClipper=\"handelclip\"\n    />\n\n|参数   |值   |描述   |\n| ------------ | ------------ | ------------ |\n| width  |(string)默认200px   | 不传则默认为生成200px宽的头像上传域  |\n| height  |(string)默认200px   | 不传则默认为生成200px高的头像上传域  |\n|  backgroundColor | (string)默认为空  | 不传则裁剪时空的区域为透明  |\n|  hd |  (boolean)默认为true  |  默认为生成两倍大小图片，解决高清屏中图片生成不清晰 |\n|  control |  (boolean)默认为false  |  默认不显示控制器，可在pc端中显示调整图片大小的控制器 |\n|  buttonValue |  (object)默认为{clipText: '裁剪', clipClass: 'button', resetText: '重置', resetClass: 'button'}  |  生成的裁剪和重置按钮属性，clipText为裁剪按钮文字属性，resetText为重置按钮，clipClass和resetClass为两个按钮的class |\n|  imageClipper |  (function)图片裁剪回调方法  |  function(data),data为图片裁剪生成的base64和图片原始信息 |\n",
-          "date": "2018-05-05T11:18:16.000Z",
-          "state": "publish",
-          "introduce": "vue-imageClip是一个基于vue的图片裁剪组件，支持在线预览、移动缩放。",
-          "tag": "vue",
-          "__v": 0
-        }
+       const {data: {response}} = await Vue.http.get('/api/TopicDetail/'+ id);
 
-        const {articleContent, ...articleDetail} = articleDetails;
         marked.setOptions({
           renderer: new marked.Renderer(),
           gfm: true,
@@ -98,8 +62,8 @@
             return highlight.highlightAuto(code).value;
           }
         })
-        const markHtml = marked(articleContent);
-        return {articleDetails, markHtml};
+        const markHtml = marked(response.tdContent);
+        return {response, markHtml};
       } catch (err) {
         error({ statusCode: 404})
       }
@@ -113,10 +77,10 @@
     },
     head () {
       return {
-        title: this.articleDetails.title || 'binlive',
+        title: this.response.tdName || 'binlive',
         meta: [
-          { hid: 'description', name: 'description', content: `${this.articleDetails.title},前端开发,前端,web前端开发,node,vue,react,webpack,git` },
-          { name: 'keywords', content: this.articleDetails.title }
+          { hid: 'description', name: 'description', content: `${this.response.tdName},前端开发,前端,web前端开发,node,vue,react,webpack,git` },
+          { name: 'keywords', content: this.response.tdName }
         ]
       }
     },

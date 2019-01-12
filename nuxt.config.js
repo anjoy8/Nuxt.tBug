@@ -40,11 +40,9 @@ module.exports = {
   ** 在安装app之前，加载插件
   */
   plugins: [
-    '@/plugins/element-ui',
-    {
-      src: '~plugins/nuxt-markdown.js',
-      ssr: false //仅在客户端渲染
-    }
+    { src: '~plugins/element-ui', ssr: true },
+    { src: '~plugins/nuxt-markdown.js',ssr: false  },
+    { src: "~plugins/server_site/index", ssr: true }
 
   ],
 

@@ -20,11 +20,11 @@
 </template>
 
 <script>
-  import ArticleList from '../components/ArticleList';
+  import ArticleList from '../components/ArticleList'
   import axios from '~/plugins/axios'
 
   export default {
-    head () {
+    head() {
       return {
         title: 'bug-.net core 专题',
         meta: [
@@ -35,61 +35,65 @@
     },
     data() {
       return {
-        page: 0,
+        page: 1,
         lastpage: true,
         ScrollFirst: true,
         scrolltip: false,
         scrollload: true,
-        scrollloadlast: false,
-      };
+        scrollloadlast: false
+      }
     },
-    async asyncData ({params}) {
+    async asyncData({ params }) {
       try {
-        const {tag} = params;
+        const { tag } = params
+        let { data } = await axios.get(`/api/TopicDetail/24`)
+        console.log(data)
+
         const { data: { article } } = await axios.get(`/api/TopicDetail?page=1`)
+        console.log(article)
 
         return {
           articleList: article,
           tagtitle: tag,
           fadetitle: true,
           notfound: !article.length
-        };
+        }
       } catch (err) {
-        // error({statusCode: 404})
+        //error({statusCode: 404})
       }
     },
     components: {
       ArticleList
     },
     mounted() {
-      window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll)
       if (window.loading) {
-        window.loading.close();
+        window.loading.close()
       }
     },
     methods: {
       nextpage() {
 
       },
-      articlesDetailsFn: function(id){
-        this.$router.push({ path: `/details/${id}`});
+      articlesDetailsFn: function(id) {
+        this.$router.push({ path: `/details/${id}` })
       },
       handleScroll() {
-        const jrscrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollT;
-        let scrollBottom = document.body.clientHeight - window.innerHeight - jrscrollTop;
+        const jrscrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollT
+        let scrollBottom = document.body.clientHeight - window.innerHeight - jrscrollTop
         if (scrollBottom < 30) {
           if (this.ScrollFirst) {
-            this.scrolltip = true;
-            this.scrollload = false;
-            this.ScrollFirst = false;
-            this.nextpage();
+            this.scrolltip = true
+            this.scrollload = false
+            this.ScrollFirst = false
+            this.nextpage()
           }
         }
       }
     },
-    beforeDestroy () {
-      window.removeEventListener('scroll', this.handleScroll, false);
+    beforeDestroy() {
+      window.removeEventListener('scroll', this.handleScroll, false)
     }
-  };
+  }
 </script>
 
