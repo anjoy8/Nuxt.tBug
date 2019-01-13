@@ -10,6 +10,19 @@
       <el-form-item label="作者昵称">
         <el-input v-model="form.tdAuthor"></el-input>
       </el-form-item>
+      <el-form-item label="作者头像">
+        <!--<el-input v-model="form.tdLogo"></el-input>-->
+        <el-upload
+          class="avatar-uploader"
+          action="http://localhost:3089/api/Img/Pic"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
+
       <el-form-item label="是否解决">
         <el-switch v-model="form.isok"></el-switch>
       </el-form-item>
@@ -79,6 +92,7 @@
         },
         taglists: [],
         handbook: "#### 这是手册",
+        imageUrl: ''
       }
     },
     mounted() {
@@ -89,6 +103,22 @@
       }
     },
     methods: {
+      handleAvatarSuccess(res, file) {
+        debugger
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt1M = file.size / 1024 / 1024 < 1;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt1M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt1M;
+      },
       taglist() {
         axios.get('/api/Topic').then(
           respone => {
@@ -198,3 +228,28 @@
 
   }
 </script>
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>

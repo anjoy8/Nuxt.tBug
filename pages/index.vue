@@ -46,8 +46,8 @@
     async asyncData({ params }) {
       try {
         const { tag } = params
-        let { data } = await axios.get(`/api/TopicDetail/24`)
-        console.log(data)
+        // let { data } = await axios.get(`/api/TopicDetail/24`)
+        // console.log(data)
 
         const { data: { response } } = await axios.get(`/api/TopicDetail?page=1`)
         console.log(response)

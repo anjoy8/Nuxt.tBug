@@ -43,6 +43,7 @@
 
   import '../../assets/hybrid.css'
   dateFormat()
+
   export default {
     async asyncData ({params, error}) {
       try {
@@ -65,7 +66,9 @@
         const markHtml = marked(response.tdContent);
         return {response, markHtml};
       } catch (err) {
-        error({ statusCode: 404})
+        if(err.response.status==401){
+          this.$router.push({ path: `/login` })
+        }
       }
     },
     name: 'Articledetails',
