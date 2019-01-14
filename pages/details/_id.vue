@@ -66,9 +66,7 @@
         const markHtml = marked(response.tdContent);
         return {response, markHtml};
       } catch (err) {
-        if(err.response.status==401){
-          this.$router.push({ path: `/login` })
-        }
+        error({statusCode: err.response.status})
       }
     },
     name: 'Articledetails',

@@ -5,7 +5,7 @@
         <div @click="articlesDetailsFn(item.id)">
           <div class="box-card articles-box" >
             <div class="post-time">
-              <span class="post-timecon">{{item.tdCreatetime}}</span>
+              <span class="post-timecon">{{new Date(item.tdCreatetime).format('yyyy-MM-dd')}}</span>
             </div>
             <div class="post-title" >
               <h1>{{item.tdName}}</h1>
@@ -17,7 +17,10 @@
           <div class="artitem_bottom">
             <div class="poster"  >{{item.tdAuthor}} </div>
             <div class="post-label-box">
-              <span class="post-label" >{{item.tdSectendDetail}}</span>
+              <span class="" >
+               <img v-if="item.tdLogo" :src="item.tdLogo " height="28" width="28"/>
+              <img v-else src="../assets/authlogo.png" height="28" width="28" />
+              </span>
             </div>
           </div>
         </div>
@@ -28,6 +31,8 @@
 
 <script>
   import {Loading} from 'element-ui';
+  import {dateFormat} from '../utils/index';
+  dateFormat();
 
   export default {
     name: 'ArticleList',

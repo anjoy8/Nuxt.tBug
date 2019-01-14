@@ -18,7 +18,7 @@
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <img v-if="form.tdLogo" :src="form.tdLogo" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
@@ -84,6 +84,7 @@
           tdName: '',
           tdDetail:'',
           tdAuthor: '',
+          tdLogo: '',
           isok: true,
           tdContent: '',
           TopicId:"",
@@ -105,7 +106,7 @@
     methods: {
       handleAvatarSuccess(res, file) {
         debugger
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.form.tdLogo = "http://localhost:3089/"+res.response;
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -242,14 +243,14 @@
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
     text-align: center;
   }
   .avatar {
-    width: 178px;
-    height: 178px;
+    width: 120px;
+    height: 120px;
     display: block;
   }
 </style>
