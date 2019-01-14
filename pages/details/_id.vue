@@ -3,6 +3,7 @@
     <div class="detail-header">
       <h1>{{response.tdName}}</h1>
       <div class="time">
+        <el-button @click="articlesDetailsFn(response.id)" style="margin-right: 10px;" type="primary" icon="el-icon-edit" circle></el-button>
         {{new Date(response.tdCreatetime).format('yyyy-MM-dd')}}
       </div>
       <div class="detail-body-tag">
@@ -14,7 +15,7 @@
     </div>
     <div v-show="background" class="background">
       <div class="img-wrapper">
-        <img :src="backgroundImg" class="background-animate" >
+        <img :src="backgroundImg" class="background-animate">
       </div>
       <img src="../../assets/close.png" class="close" @click="hidePrview">
     </div>
@@ -22,33 +23,35 @@
 </template>
 
 <script>
-  import {dateFormat} from '../../utils/index';
-  import marked from 'marked';
+  import { dateFormat } from '../../utils/index'
+  import marked from 'marked'
 
-  import Vue from "vue";
+  import Vue from 'vue'
 
   import highlight from 'highlight.js/lib/highlight'
-  import javascript from 'highlight.js/lib/languages/javascript';
-  import css from 'highlight.js/lib/languages/css';
-  import php from 'highlight.js/lib/languages/php';
+  import javascript from 'highlight.js/lib/languages/javascript'
+  import css from 'highlight.js/lib/languages/css'
+  import php from 'highlight.js/lib/languages/php'
   import python from 'highlight.js/lib/languages/python'
   import sql from 'highlight.js/lib/languages/sql'
   import bash from 'highlight.js/lib/languages/bash'
-  highlight.registerLanguage('javascript', javascript);
-  highlight.registerLanguage('css', css);
-  highlight.registerLanguage('php', php);
-  highlight.registerLanguage('python', python);
-  highlight.registerLanguage('sql', sql);
-  highlight.registerLanguage('bash', bash);
+
+  highlight.registerLanguage('javascript', javascript)
+  highlight.registerLanguage('css', css)
+  highlight.registerLanguage('php', php)
+  highlight.registerLanguage('python', python)
+  highlight.registerLanguage('sql', sql)
+  highlight.registerLanguage('bash', bash)
 
   import '../../assets/hybrid.css'
+
   dateFormat()
 
   export default {
-    async asyncData ({params, error}) {
+    async asyncData({ params, error, redirect }) {
       try {
-        const {id} = params;
-       const {data: {response}} = await Vue.http.get('/api/TopicDetail/'+ id);
+        const { id } = params
+        const { data: { response } } = await Vue.http.get('/api/TopicDetail/' + id)
 
         marked.setOptions({
           renderer: new marked.Renderer(),
@@ -59,28 +62,36 @@
           sanitize: false,
           smartLists: true,
           smartypants: false,
-          highlight: function (code, lang) {
-            return highlight.highlightAuto(code).value;
+          highlight: function(code, lang) {
+            return highlight.highlightAuto(code).value
           }
         })
-        const markHtml = marked(response.tdContent);
-        return {response, markHtml};
+        const markHtml = marked(response.tdContent)
+        return { response, markHtml }
       } catch (err) {
-        error({statusCode: err.response.status})
+        if (err.response.status == 401) {
+          return redirect('/login')
+        } else {
+          error({ statusCode: err.response.status })
+        }
       }
     },
     name: 'Articledetails',
-    data () {
+    data() {
       return {
         background: false,
-        backgroundImg: '',
+        backgroundImg: ''
       }
     },
-    head () {
+    head() {
       return {
         title: this.response.tdName || 'binlive',
         meta: [
-          { hid: 'description', name: 'description', content: `${this.response.tdName},前端开发,前端,web前端开发,node,vue,react,webpack,git` },
+          {
+            hid: 'description',
+            name: 'description',
+            content: `${this.response.tdName},前端开发,前端,web前端开发,node,vue,react,webpack,git`
+          },
           { name: 'keywords', content: this.response.tdName }
         ]
       }
@@ -88,33 +99,35 @@
     mounted() {
       document.querySelectorAll('.detail-body img').forEach(item => {
         item.addEventListener('click', () => {
-          document.documentElement.style.overflow = "hidden";
-          this.background = true;
-          this.backgroundImg = item.src;
-        });
+          document.documentElement.style.overflow = 'hidden'
+          this.background = true
+          this.backgroundImg = item.src
+        })
       })
     },
     methods: {
-      hidePrview () {
-        this.background = false;
-        this.backgroundImg = '';
-        document.documentElement.style.overflow = "auto";
+      articlesDetailsFn: function(id){
+        this.$router.push({ path: `/tibug/${id}`});
+      },
+      hidePrview() {
+        this.background = false
+        this.backgroundImg = ''
+        document.documentElement.style.overflow = 'auto'
       }
     },
     computed: {
       authUrl() {
-        const id = this.$route.params.id;
-        return `https://github.com/login/oauth/authorize?client_id=ee9b0ae4553f4fb449bf&state=${id}&redirect_uri=http://www.binlive.cn:3080/api/oauth`;
+        const id = this.$route.params.id
+        return `https://github.com/login/oauth/authorize?client_id=ee9b0ae4553f4fb449bf&state=${id}&redirect_uri=http://www.binlive.cn:3080/api/oauth`
       }
     },
-    components: {
-    },
+    components: {},
     beforeDestroy() {
       window.loading = this.$loading({
         lock: true,
         text: 'Loading',
         background: 'rgba(255, 255, 255, 0.7)'
-      });
+      })
     }
   }
 </script>
@@ -130,30 +143,114 @@
       transform: none;
     }
   }
-  .fadein{
+
+  .fadein {
     animation-name: fadeInRight;
     animation-duration: 1s;
     animation-fill-mode: both;
   }
-  .detail-body pre{background-color:#282a36 !important}
-  #articlesDetails { height: 100vh; overflow: scroll;
+
+  .detail-body pre {
+    background-color: #282a36 !important
+  }
+
+  #articlesDetails {
+    height: 100vh;
+    overflow: scroll;
     text-align: center;
-    padding: 0 1rem;
+    /*padding: 0 1rem;*/
     background-color: #fff;
     -webkit-font-smoothing: antialiased;
-    opacity:1; -webkit-transform:translate3d(0, 10px, 0);transform:translate3d(0, 10px, 0);
+    opacity: 1;
+    -webkit-transform: translate3d(0, 10px, 0);
+    transform: translate3d(0, 10px, 0);
   }
+
   .detail-header {
-    width:140%;margin-left:-20%; background-color:#004c99;min-height:200px;padding-left:20%;
+    /*width: 140%;*/
+    margin-left: -20%;
+    background-color: #004c99;
+    min-height: 150px;
+    padding-left: 20%;
   }
-  .detail-header>h1{ font-size:24px; color:#fff;font-weight:900;padding-top:100px;text-align:left;padding-left:20px;}
-  .detail-header .time { font-size:14px;color:#f2f2f2; margin-top:10px;margin-bottom:4px; text-align:left;padding-left:22px; }
-  .detail-body-tag{padding-left:22px;}
-  .detail-body-tag span{float:left;border-radius:2px; padding:4px 8px;background-color:#fff;margin-right:10px; box-shadow:1px 1px 1px rgba(2,58,114,.1)}
-  .detail-body-tag span:nth-child(1n){background-color:#007fff;color:#fff}
-  .detail-body{ text-align: left; border-bottom: 1px solid #f0f0f0; color: #666; padding:22px;padding-bottom:10px;min-height:500px;padding-top:40px;}
-  .background{width: 100%; height: 100%; background-color: #fff; position: fixed;left: 0px; top: 0px;z-index: 888; padding-top: 140px}
-  .img-wrapper {width: 80%; height: 100%; overflow: auto; margin: 0 auto; padding: 0px 0px 30px 0px;}
-  .img-wrapper img {width: 100%; transition: all 0.3s ease-in-out;}
-  .close {position: fixed; right: 4%; top: 130px; width: 50px; opacity: 0.4; cursor: pointer}
+
+  .detail-header > h1 {
+    font-size: 24px;
+    color: #fff;
+    font-weight: 900;
+    padding-top: 60px;
+    text-align: left;
+    padding-left: 20px;
+    max-height: 250px;
+  }
+
+  .detail-header .time {
+    font-size: 14px;
+    color: #f2f2f2;
+    margin-top: 10px;
+    padding-bottom: 6px;
+    text-align: left;
+    padding-left: 22px;
+  }
+
+  .detail-body-tag {
+    padding-left: 22px;
+  }
+
+  .detail-body-tag span {
+    float: left;
+    border-radius: 2px;
+    padding: 4px 8px;
+    background-color: #fff;
+    margin-right: 10px;
+    box-shadow: 1px 1px 1px rgba(2, 58, 114, .1)
+  }
+
+  .detail-body-tag span:nth-child(1n) {
+    background-color: #007fff;
+    color: #fff
+  }
+
+  .detail-body {
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    color: #666;
+    padding: 22px;
+    padding-bottom: 10px;
+    min-height: 500px;
+    padding-top: 40px;
+  }
+
+  .background {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 888;
+    padding-top: 140px
+  }
+
+  .img-wrapper {
+    width: 80%;
+    height: 100%;
+    overflow: auto;
+    margin: 0 auto;
+    padding: 0px 0px 30px 0px;
+  }
+
+  .img-wrapper img {
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .close {
+    position: fixed;
+    right: 4%;
+    top: 130px;
+    width: 50px;
+    opacity: 0.4;
+    cursor: pointer
+  }
 </style>
