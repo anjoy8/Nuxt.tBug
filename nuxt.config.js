@@ -1,4 +1,5 @@
-const pkg = require('./package')
+const webpack = require('webpack')
+
 
 module.exports = {
   mode: 'universal',
@@ -65,19 +66,29 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    build: {
+      vendor: ['element-ui', 'axios', 'Button', 'Input', 'Tabs', 'Message', 'TabPane', 'Row', 'Col', 'Loading', 'Notification', 'Icon']
+    },
+    analyze: false,
+    plugins: [
+      new webpack.ContextReplacementPlugin(
+        /highlight\.js\/lib\/languages$/,
+        new RegExp(`^./(${['javascript', 'css', 'php', 'sql', 'python', 'bash'].join('|')})$`),
+      )
+    ],
+    babel: {
+
+    },
     /*
-    ** You can extend webpack config here
+    ** Run ESLint on save
     */
     extend(config, ctx) {
 
     },
-
-
-
   },
   proxy: [
     ['/api', { target: 'http://localhost:5000' }],
     ['/images', { target: 'http://localhost:5000' }],
-    // ['/api', { target: 'http://binlive.cn:3080' }],
+    // ['/api', { target: 'http://xxx.xxx.xx.x:3080' }],
   ]
 }

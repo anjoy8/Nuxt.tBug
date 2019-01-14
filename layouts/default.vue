@@ -98,7 +98,7 @@
       },
       loginpage() {
 
-        this.$router.push({ path: `/tibug` })
+        this.$router.push({ path: `/tibug/0` })
       },
       homepage() {
 

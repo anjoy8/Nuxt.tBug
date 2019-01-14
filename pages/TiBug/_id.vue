@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <el-form ref="form" :model="form" label-width="80px" style="padding-top: 20px;">
       <el-form-item label="问题标题">
         <el-input v-model="form.tdName"></el-input>
@@ -29,12 +29,14 @@
 
       <el-form-item label="专题分类">
         <el-select v-model="form.TopicId" placeholder="请选择专题分类">
-          <el-option v-for="item in taglists" :key=item.id :label='item.tName+"专题"' :value="item.id"  ></el-option>
+          <el-option v-for="item in taglists" :key=item.id :label='item.tName+"专题"' :value="item.id"></el-option>
 
         </el-select>
       </el-form-item>
       <el-form-item label="正文内容">
-        <no-ssr><mavon-editor :toolbars="markdownOption" v-model="form.tdContent"  ref=md @imgAdd="$imgAdd" /></no-ssr>
+        <no-ssr>
+          <mavon-editor :toolbars="markdownOption" v-model="form.tdContent" ref=md @imgAdd="$imgAdd"/>
+        </no-ssr>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -78,115 +80,116 @@
           aligncenter: true, // 居中
           alignright: true, // 右对齐
           subfield: true, // 单双栏模式
-          preview: true, // 预览
+          preview: true // 预览
         },
         form: {
           tdName: '',
-          tdDetail:'',
+          tdDetail: '',
           tdAuthor: '',
           tdLogo: '',
           isok: true,
           tdContent: '',
-          TopicId:"",
-          tdSectendDetail:"tbug",
-          Id:0,
+          TopicId: '',
+          tdSectendDetail: 'tbug',
+          Id: 0
         },
         taglists: [],
-        handbook: "#### 这是手册",
+        handbook: '#### 这是手册',
         imageUrl: ''
       }
     },
     mounted(params) {
 
-      let tdid=this.$route.params.id;
+      let tdid = this.$route.params.id
       this.taglist(tdid)
-      window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll)
       if (window.loading) {
-        window.loading.close();
+        window.loading.close()
       }
     },
     methods: {
       handleAvatarSuccess(res, file) {
 
-        this.form.tdLogo = "http://localhost:3089/"+res.response;
+        this.form.tdLogo = 'http://localhost:3089/' + res.response
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt1M = file.size / 1024 / 1024 < 1;
+        const isJPG = file.type === 'image/jpeg'
+        const isLt1M = file.size / 1024 / 1024 < 1
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          this.$message.error('上传头像图片只能是 JPG 格式!')
         }
         if (!isLt1M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          this.$message.error('上传头像图片大小不能超过 2MB!')
         }
-        return isJPG && isLt1M;
+        return isJPG && isLt1M
       },
       taglist(id) {
-        let that=this;
+        let that = this
         axios.get('/api/Topic').then(
           respone => {
             const tagList = (respone.data.data || [])
             that.taglists = tagList
 
           })
+        if (id > 0) {
+          axios.get('/api/TopicDetail/' + id).then(
+            respone => {
 
-        axios.get('/api/TopicDetail/'+id).then(
-          respone => {
+              const tagList = (respone.data.response || [])
 
-            const tagList = (respone.data.response || [])
-
-            that.form = tagList
-            that.form.TopicId=tagList.topicId;
-            that.form.isok=true;
-          })
+              that.form = tagList
+              that.form.TopicId = tagList.topicId
+              that.form.isok = true
+            })
+        }
 
       },
       onSubmit() {
-        console.log(this.form);
-        let that=this;
-        let formdata=this.form;
+        console.log(this.form)
+        let that = this
+        let formdata = this.form
 
         if (!formdata.tdName) {
           this.$message({
             message: '请输入简要描述',
             type: 'warning'
-          });
-          return;
+          })
+          return
         }
         if (!formdata.tdAuthor) {
           this.$message({
             message: '请输入你的昵称',
             type: 'warning'
-          });
-          return;
+          })
+          return
         }
         if (!formdata.isok) {
           this.$message({
             message: '暂时还不能添加未解决的Bug哟',
             type: 'warning'
-          });
-          return;
+          })
+          return
         }
-        if (!(formdata.TopicId>0)) {
+        if (!(formdata.TopicId > 0)) {
           this.$message({
             message: '请选择专题分类',
             type: 'warning'
-          });
-          return;
+          })
+          return
         }
         if (!formdata.tdContent) {
           this.$message({
             message: '请填写正文内容',
             type: 'warning'
-          });
-          return;
+          })
+          return
         }
 
         axios({
           url: '/api/TopicDetail',
           method: 'post',
-          data: formdata,
+          data: formdata
         }).then((response) => {
           debugger
           if (response.data.success) {
@@ -194,32 +197,32 @@
               title: '成功',
               message: response.data.msg,
               type: 'success'
-            });
+            })
 
-            this.$router.push({ path: `/details/${response.data.response}`});
+            this.$router.push({ path: `/details/${response.data.response}` })
 
 
-          }else{
+          } else {
             that.$notify.error({
               title: '错误',
               message: response.data.msg
-            });
+            })
 
           }
         })
 
       },
       // 绑定@imgAdd event
-      $imgAdd(pos, $file){
-        let that=this;
+      $imgAdd(pos, $file) {
+        let that = this
         // 第一步.将图片上传到服务器.
-        var formdata = new FormData();
-        formdata.append('image', $file);
+        var formdata = new FormData()
+        formdata.append('image', $file)
         axios({
           url: '/api/Img/Pic',
           method: 'post',
           data: formdata,
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: { 'Content-Type': 'multipart/form-data' }
         }).then((url) => {
           // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
           /**
@@ -228,18 +231,18 @@
            * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
            */
           debugger
-          that.$refs.md.$img2Url(pos, "http://localhost:3089/"+url.data.response);
+          that.$refs.md.$img2Url(pos, 'http://localhost:3089/' + url.data.response)
         })
       },
       $imgDel(file) {
-        this.markdownIt.image_del(file[0]);
+        this.markdownIt.image_del(file[0])
         // 删除所有markdown中的图片
         let fileReg = file[1]
-        let reg = new RegExp(`\\!\\[${file[0]._name}\\]\\(${fileReg}\\)`, "g")
-        this.d_value = this.d_value.replace(reg, '');
-        this.iRender();
-        this.$emit('imgDel', file);
-      },
+        let reg = new RegExp(`\\!\\[${file[0]._name}\\]\\(${fileReg}\\)`, 'g')
+        this.d_value = this.d_value.replace(reg, '')
+        this.iRender()
+        this.$emit('imgDel', file)
+      }
     }
 
   }
@@ -252,9 +255,11 @@
     position: relative;
     overflow: hidden;
   }
+
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
+
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -263,6 +268,7 @@
     line-height: 120px;
     text-align: center;
   }
+
   .avatar {
     width: 120px;
     height: 120px;
