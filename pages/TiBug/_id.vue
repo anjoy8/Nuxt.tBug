@@ -101,11 +101,10 @@
     mounted(params) {
 
       let tdid = this.$route.params.id
-      debugger
-      if(tdid>0){
-        this.form.Id=tdid;
-        this.taglist(tdid)
-      }
+
+      this.form.Id = tdid>0? tdid:0;
+
+      this.taglist(tdid)
       window.addEventListener('scroll', this.handleScroll)
       if (window.loading) {
         window.loading.close()
@@ -150,7 +149,6 @@
 
       },
       onSubmit() {
-        console.log(this.form)
         let that = this
         let formdata = this.form
 
@@ -189,8 +187,8 @@
           })
           return
         }
-debugger
-        if(formdata.id>0){
+        debugger
+        if (formdata.id > 0) {
 
           axios({
             url: '/api/TopicDetail/update',
@@ -222,7 +220,7 @@ debugger
             method: 'post',
             data: formdata
           }).then((response) => {
-            debugger
+
             if (response.data.success) {
               that.$notify({
                 title: '成功',
@@ -242,7 +240,6 @@ debugger
           })
 
         }
-
 
 
       },
