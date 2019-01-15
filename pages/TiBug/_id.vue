@@ -101,7 +101,11 @@
     mounted(params) {
 
       let tdid = this.$route.params.id
-      this.taglist(tdid)
+      debugger
+      if(tdid>0){
+        this.form.Id=tdid;
+        this.taglist(tdid)
+      }
       window.addEventListener('scroll', this.handleScroll)
       if (window.loading) {
         window.loading.close()
@@ -185,31 +189,61 @@
           })
           return
         }
+debugger
+        if(formdata.id>0){
 
-        axios({
-          url: '/api/TopicDetail',
-          method: 'post',
-          data: formdata
-        }).then((response) => {
-          debugger
-          if (response.data.success) {
-            that.$notify({
-              title: '成功',
-              message: response.data.msg,
-              type: 'success'
-            })
+          axios({
+            url: '/api/TopicDetail/update',
+            method: 'put',
+            data: formdata
+          }).then((response) => {
+            debugger
+            if (response.data.success) {
+              that.$notify({
+                title: '成功',
+                message: response.data.msg,
+                type: 'success'
+              })
 
-            this.$router.push({ path: `/details/${response.data.response}` })
+              this.$router.push({ path: `/details/${response.data.response}` })
 
 
-          } else {
-            that.$notify.error({
-              title: '错误',
-              message: response.data.msg
-            })
+            } else {
+              that.$notify.error({
+                title: '错误',
+                message: response.data.msg
+              })
+            }
+          })
+        }
+        else {
+          axios({
+            url: '/api/TopicDetail',
+            method: 'post',
+            data: formdata
+          }).then((response) => {
+            debugger
+            if (response.data.success) {
+              that.$notify({
+                title: '成功',
+                message: response.data.msg,
+                type: 'success'
+              })
 
-          }
-        })
+              this.$router.push({ path: `/details/${response.data.response}` })
+
+
+            } else {
+              that.$notify.error({
+                title: '错误',
+                message: response.data.msg
+              })
+            }
+          })
+
+        }
+
+
 
       },
       // 绑定@imgAdd event

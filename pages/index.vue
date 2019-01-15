@@ -50,7 +50,6 @@
         // console.log(data)
 
         const { data: { response } } = await axios.get(`/api/TopicDetail?page=1`)
-        console.log(response)
 
         return {
           articleList: response.data,

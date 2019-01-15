@@ -27,6 +27,7 @@
   import marked from 'marked'
 
   import Vue from 'vue'
+  import axios from '~/plugins/axios'
 
   import highlight from 'highlight.js/lib/highlight'
   import javascript from 'highlight.js/lib/languages/javascript'
@@ -51,7 +52,8 @@
     async asyncData({ params, error, redirect }) {
       try {
         const { id } = params
-        const { data: { response } } = await Vue.http.get('/api/TopicDetail/' + id)
+
+        const { data: { response } } = await axios.get('/api/TopicDetail/' + id)
 
         marked.setOptions({
           renderer: new marked.Renderer(),
@@ -69,6 +71,7 @@
         const markHtml = marked(response.tdContent)
         return { response, markHtml }
       } catch (err) {
+        debugger
         if (err.response.status == 401) {
           return redirect('/login')
         } else {
