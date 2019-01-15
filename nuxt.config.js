@@ -87,8 +87,9 @@ module.exports = {
     },
   },
   proxy: [
-    ['/api', { target: 'http://localhost:5000' }],
-    ['/images', { target: 'http://localhost:5000' }],
-    // ['/api', { target: 'http://xxx.xxx.xx.x:3080' }],
+    // ['/api', { target: 'http://localhost:5000' }],
+    // ['/images', { target: 'http://localhost:5000' }],
+    ['/api', { target: 'http://123.206.33.109:8081' }],
+    ['/images', { target: 'http://123.206.33.109:8081' }],
   ]
 }
