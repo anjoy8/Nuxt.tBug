@@ -90,6 +90,6 @@ module.exports = {
     ['/api', { target: 'http://localhost:8081' }],
     ['/images', { target: 'http://localhost:8081' }],
     // ['/api', { target: 'http://123.206.33.109:8081' }],
-    // ['/images', { target: 'http://123.206.33.109:8081' }],
+    //['/images', { target: 'http://123.206.33.109:8081' }],
   ]
 }

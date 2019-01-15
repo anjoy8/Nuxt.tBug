@@ -14,7 +14,7 @@
         <!--<el-input v-model="form.tdLogo"></el-input>-->
         <el-upload
           class="avatar-uploader"
-          action="http://localhost:3089/api/Img/Pic"
+          action="/api/Img/Pic"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
@@ -114,7 +114,7 @@
     methods: {
       handleAvatarSuccess(res, file) {
 
-        this.form.tdLogo = 'http://localhost:3089/' + res.response
+        this.form.tdLogo = '/' + res.response
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg'
@@ -265,7 +265,7 @@ debugger
            * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
            */
           debugger
-          that.$refs.md.$img2Url(pos, 'http://localhost:3089/' + url.data.response)
+          that.$refs.md.$img2Url(pos, '/' + url.data.response)
         })
       },
       $imgDel(file) {
