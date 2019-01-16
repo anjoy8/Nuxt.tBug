@@ -409,6 +409,9 @@ html {
   height: 60px;
   width: 200px;
 }
+#logo img#smallpng {
+ display: none;
+}
 
 .artitem > div {
   padding: 16px 20px 0;
@@ -935,6 +938,15 @@ html {
   #search {
     right: 10px;
     width: 164px;
+  }
+  #logo img#bigpng{
+    display: none !important;
+  }
+
+  #logo img#smallpng{
+    display: block !important;
+    width: 70px;
+    margin-left: 10px;
   }
 
   .tagtitle {

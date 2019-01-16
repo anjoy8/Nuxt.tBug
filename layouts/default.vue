@@ -6,8 +6,10 @@
           <div class="nav-bar-body">
             <div class="nav-bar-inner">
               <div id="logo" @click="homepage">
-                <img
-                  src="../assets/logoa.png"/>
+                <img id="bigpng"
+                     src="../assets/logoa.png"/>
+                <img id="smallpng"
+                     src="../assets/authlogo.png"/>
               </div>
             </div>
             <div>
