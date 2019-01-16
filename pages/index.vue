@@ -79,9 +79,8 @@
           } else {
             this.page++;
           }
-          axios.get(`/api/TopicDetail?page=1${this.page}`)
+          axios.get(`/api/TopicDetail?page=${this.page}`)
             .then(res => {
-
               const Articles = res.data.response.data;
               this.articleList = [...this.articleList, ...Articles];
               this.ScrollFirst = true;

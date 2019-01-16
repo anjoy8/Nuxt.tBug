@@ -932,6 +932,10 @@ html {
 }
 
 @media screen and (max-width: 768px) {
+  .container {
+    padding: 0 !important;
+    margin-bottom: 30px;
+  }
   .main {
     padding-bottom: 0px;
   }
