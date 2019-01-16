@@ -102,7 +102,7 @@
 
       let tdid = this.$route.params.id
 
-      this.form.Id = tdid>0? tdid:0;
+      this.form.Id = tdid > 0 ? tdid : 0
 
       this.taglist(tdid)
       window.addEventListener('scroll', this.handleScroll)
@@ -187,57 +187,84 @@
           })
           return
         }
-        debugger
+        window.loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          background: 'rgba(255, 255, 255, 0.7)'
+        })
         if (formdata.id > 0) {
+          try {
+            axios({
+              url: '/api/TopicDetail/update',
+              method: 'put',
+              data: formdata
+            })
+              .then((response) => {
 
-          axios({
-            url: '/api/TopicDetail/update',
-            method: 'put',
-            data: formdata
-          }).then((response) => {
-            debugger
-            if (response.data.success) {
-              that.$notify({
-                title: '成功',
-                message: response.data.msg,
-                type: 'success'
+                if (response.data.success) {
+                  that.$notify({
+                    title: '成功',
+                    message: response.data.msg,
+                    type: 'success'
+                  })
+
+                  this.$router.push({ path: `/details/${response.data.response}` })
+
+
+                } else {
+
+                  if (response.data.status == 401||response.data.status == 403) {
+                    that.$confirm('未登录或者令牌失效, 是否重新登录?', '无权限！', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'warning'
+                    }).then(() => {
+                      this.$router.push({ path: `/login?redirect=/tibug/${formdata.id}` })
+                    }).catch(() => {
+
+                    });
+
+                    if (window.loading) {
+                      window.loading.close()
+                    }
+
+                    return
+                  }
+                }
               })
+          } catch (err) {
 
-              this.$router.push({ path: `/details/${response.data.response}` })
 
+          }
 
-            } else {
-              that.$notify.error({
-                title: '错误',
-                message: response.data.msg
-              })
-            }
-          })
         }
         else {
           axios({
             url: '/api/TopicDetail',
             method: 'post',
             data: formdata
-          }).then((response) => {
-
-            if (response.data.success) {
-              that.$notify({
-                title: '成功',
-                message: response.data.msg,
-                type: 'success'
-              })
-
-              this.$router.push({ path: `/details/${response.data.response}` })
-
-
-            } else {
-              that.$notify.error({
-                title: '错误',
-                message: response.data.msg
-              })
-            }
           })
+            .then((response) => {
+              if (window.loading) {
+                window.loading.close()
+              }
+              if (response.data.success) {
+                that.$notify({
+                  title: '成功',
+                  message: response.data.msg,
+                  type: 'success'
+                })
+
+                this.$router.push({ path: `/details/${response.data.response}` })
+
+
+              } else {
+                that.$notify.error({
+                  title: '错误',
+                  message: response.data.msg
+                })
+              }
+            })
 
         }
 

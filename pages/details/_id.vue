@@ -3,7 +3,8 @@
     <div class="detail-header">
       <h1>{{response.tdName}}</h1>
       <div class="time">
-        <el-button @click="articlesDetailsFn(response.id)" style="margin-right: 10px;" type="primary" icon="el-icon-edit" circle></el-button>
+        <el-button @click="articlesDetailsFn(response.id)" style="margin-right: 10px;" type="primary"
+                   icon="el-icon-edit" circle></el-button>
         {{new Date(response.tdCreatetime).format('yyyy-MM-dd')}}
       </div>
       <div class="detail-body-tag">
@@ -71,7 +72,7 @@
         const markHtml = marked(response.tdContent)
         return { response, markHtml }
       } catch (err) {
-        debugger
+
         if (err.response.status == 401) {
           return redirect('/login')
         } else {
@@ -107,10 +108,19 @@
           this.backgroundImg = item.src
         })
       })
+
+      if (window.loading) {
+        window.loading.close()
+      }
     },
     methods: {
-      articlesDetailsFn: function(id){
-        this.$router.push({ path: `/tibug/${id}`});
+      articlesDetailsFn: function(id) {
+
+        if (window.localStorage.Token && window.localStorage.Token.length >= 128) {
+          this.$router.push({ path: `/tibug/${id}` })
+        } else {
+          this.$router.push({ path: `/login?redirect=/details/${id}` })
+        }
       },
       hidePrview() {
         this.background = false
