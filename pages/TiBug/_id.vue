@@ -39,7 +39,7 @@
         </no-ssr>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit">{{submitName}}</el-button>
       </el-form-item>
     </el-form>
 
@@ -95,6 +95,7 @@
         },
         taglists: [],
         handbook: '#### 这是手册',
+        submitName: '',
         imageUrl: ''
       }
     },
@@ -103,6 +104,7 @@
       let tdid = this.$route.params.id
 
       this.form.Id = tdid > 0 ? tdid : 0
+      this.submitName = tdid > 0 ? "点击更新" : "立即创建"
 
       this.taglist(tdid)
       window.addEventListener('scroll', this.handleScroll)
