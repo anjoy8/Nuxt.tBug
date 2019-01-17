@@ -24,7 +24,8 @@
           <div class="navmenu">
             <template>
               <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane v-for="item in taglists" :key=item :label='item+"专题"' :name="item" data-ripple></el-tab-pane>
+                <el-tab-pane v-for="item in taglists" :key=item :label='item+"专题"' :name="item"
+                             data-ripple></el-tab-pane>
               </el-tabs>
               <el-button type="primary" icon="el-icon-edit" id="addacticlebtn" @click="loginpage">Ti Bug</el-button>
             </template>
@@ -55,12 +56,7 @@
     },
     mounted() {
       var _hmt = _hmt || []
-      // (function() {
-      //   var hm = document.createElement("script");
-      //   hm.src = "https://hm.baidu.com/hm.js?66af132474dd9a5c2ebd172d8d08e81b";
-      //   var s = document.getElementsByTagName("script")[0];
-      //   s.parentNode.insertBefore(hm, s);
-      // })();
+      //baidu
 
       this.taglist()
       var winwinth = window.innerWidth
@@ -74,7 +70,7 @@
       taglist() {
         axios.get('/api/Topic').then(
           respone => {
-            const tagList = (respone.data.data || []).map(item => item.tName)
+            const tagList = (respone.data.response || []).map(item => item.tName)
             this.taglists = ['全部', ...tagList]
           })
       },

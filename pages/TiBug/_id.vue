@@ -129,9 +129,11 @@
       },
       taglist(id) {
         let that = this
+
         axios.get('/api/Topic').then(
           respone => {
-            const tagList = (respone.data.data || [])
+
+            const tagList = (respone.data.response || [])
             that.taglists = tagList
 
           })
