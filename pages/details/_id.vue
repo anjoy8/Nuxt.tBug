@@ -194,14 +194,13 @@
     padding-top: 60px;
     text-align: left;
     padding-left: 20px;
+    padding-bottom: 10px;
     max-height: 250px;
   }
 
   .detail-header .time {
     font-size: 14px;
     color: #f2f2f2;
-    margin-top: 10px;
-    padding-bottom: 6px;
     text-align: left;
     padding-left: 22px;
   }
