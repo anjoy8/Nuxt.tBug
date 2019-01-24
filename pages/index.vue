@@ -65,17 +65,23 @@
       ArticleList
     },
     mounted() {
-      window.addEventListener('scroll', this.handleScroll)
+      const {newArticlelist} = this.$store.state;
+      window.addEventListener('scroll', this.handleScroll);
       if (window.loading) {
-        window.loading.close()
+        window.loading.close();
+      }
+      if (newArticlelist.length) {
+        this.articleList = newArticlelist;
+        return;
       }
     },
     methods: {
       nextpage() {
+        debugger
         if (this.lastpage) {
           const {newArticlelist} = this.$store.state;
           if (newArticlelist.length) {
-            this.page = Math.ceil(newArticlelist.length / 6);
+            this.page = Math.ceil(newArticlelist.length / 6)+1;
           } else {
             this.page++;
           }
@@ -86,7 +92,7 @@
               this.ScrollFirst = true;
               this.scrolltip = false;
               this.scrollload = true;
-              if (Articles.length < 10) {
+              if (Articles.length < 6) {
                 this.lastpage = false;
                 this.scrollloadlast = true;
               }
