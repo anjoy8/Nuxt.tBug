@@ -110,22 +110,23 @@
       var curTime = new Date()
       var expiretime = new Date(Date.parse(window.localStorage.TokenExptire))
 
-      if (curTime >= expiretime||!window.localStorage.Token||!window.localStorage.TokenExptire) {
-        this.submitAble=false;
-        this.submitName="去登录";
-        this.$confirm('未登录或者令牌失效, 是否重新登录?', '无权限！', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+      if (tdid > 0) {
+        if (curTime >= expiretime || !window.localStorage.Token || !window.localStorage.TokenExptire) {
+          this.submitAble = false
+          this.submitName = '去登录'
+          this.$confirm('未登录或者令牌失效, 是否重新登录?', '无权限！', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
 
-          this.$router.push({ path: `/login?redirect=/tibug/${tdid}` })
-        }).catch(() => {
+            this.$router.push({ path: `/login?redirect=/tibug/${tdid}` })
+          }).catch(() => {
 
-        })
+          })
 
+        }
       }
-
       this.taglist(tdid)
       window.addEventListener('scroll', this.handleScroll)
       if (window.loading) {
