@@ -39,7 +39,8 @@
         </no-ssr>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">{{submitName}}</el-button>
+        <el-button v-if="submitAble" type="primary" @click="onSubmit">{{submitName}}</el-button>
+        <el-button v-else type="primary" @click="toLogin">{{submitName}}</el-button>
       </el-form-item>
     </el-form>
 
@@ -96,6 +97,7 @@
         taglists: [],
         handbook: '#### 这是手册',
         submitName: '',
+        submitAble: true,
         imageUrl: ''
       }
     },
@@ -104,7 +106,25 @@
       let tdid = this.$route.params.id
 
       this.form.Id = tdid > 0 ? tdid : 0
-      this.submitName = tdid > 0 ? "点击更新" : "立即创建"
+      this.submitName = tdid > 0 ? '点击更新' : '立即创建'
+      var curTime = new Date()
+      var expiretime = new Date(Date.parse(window.localStorage.TokenExptire))
+
+      if (curTime >= expiretime||!window.localStorage.Token||!window.localStorage.TokenExptire) {
+        this.submitAble=false;
+        this.submitName="去登录";
+        this.$confirm('未登录或者令牌失效, 是否重新登录?', '无权限！', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          this.$router.push({ path: `/login?redirect=/tibug/${tdid}` })
+        }).catch(() => {
+
+        })
+
+      }
 
       this.taglist(tdid)
       window.addEventListener('scroll', this.handleScroll)
@@ -113,8 +133,10 @@
       }
     },
     methods: {
+      toLogin() {
+        this.$router.push({ path: `/login?redirect=/tibug/${this.$route.params.id}` })
+      },
       handleAvatarSuccess(res, file) {
-
         this.form.tdLogo = '/' + res.response
       },
       beforeAvatarUpload(file) {
@@ -217,7 +239,7 @@
 
                 } else {
 
-                  if (response.data.status == 401||response.data.status == 403) {
+                  if (response.data.status == 401 || response.data.status == 403) {
                     that.$confirm('未登录或者令牌失效, 是否重新登录?', '无权限！', {
                       confirmButtonText: '确定',
                       cancelButtonText: '取消',
@@ -226,7 +248,7 @@
                       this.$router.push({ path: `/login?redirect=/tibug/${formdata.id}` })
                     }).catch(() => {
 
-                    });
+                    })
 
                     if (window.loading) {
                       window.loading.close()

@@ -72,10 +72,16 @@
               if (response.data.success) {
                 _this.$notify({
                   title: '成功',
-                  message: "登录成功！",
+                  message: "登录成功,Token有效期"+(response.data.expires_in/60)+"分钟",
                   type: 'success'
                 })
+
                 window.localStorage.Token = response.data.token
+                var curTime = new Date();
+                var expiredate=  new Date(curTime.setSeconds(curTime.getSeconds() + response.data.expires_in));
+                window.localStorage.TokenExptire = expiredate
+
+
                 _this.$router.push({ path: redirect ? redirect:'/' })
 
               } else {
