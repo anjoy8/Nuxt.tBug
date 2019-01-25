@@ -14,10 +14,13 @@
             </div>
             <div>
               <div id="search">
-                <el-input placeholder="搜索" :on-icon-click="searchArticle" v-model="search"
+                <el-input style="width: auto;" placeholder="搜索" :on-icon-click="searchArticle" v-model="search"
                           @keyup.enter.native="keyupsearch($event)">
                   <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
+
+                <el-button @click="loginpage"  class="mobile-tibug" type="primary"  icon="el-icon-edit" circle></el-button>
+
               </div>
             </div>
           </div>
@@ -105,3 +108,9 @@
     }
   }
 </script>
+
+<style>
+  .el-message-box{
+    max-width: 100% !important;
+  }
+</style>

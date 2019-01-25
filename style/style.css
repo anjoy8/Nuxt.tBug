@@ -593,7 +593,7 @@ html {
 
 #search {
   position: absolute;
-  width: 300px;
+  /*width: 300px;*/
   right: 1px;
   height: 40px;
   margin-top: 10px;
@@ -931,6 +931,10 @@ html {
   transition: all 0.6s ease-in-out;
 }
 
+#search .mobile-tibug {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   .container {
     padding: 0 !important;
@@ -940,8 +944,13 @@ html {
     padding-bottom: 0px;
   }
   #search {
-    right: 10px;
-    width: 164px;
+    /*right: 10px;*/
+    /*width: 164px;*/
+  }
+  #search .mobile-tibug {
+   display: block !important;
+    float: right;
+    margin: 0 8px;
   }
   #logo img#bigpng{
     display: none !important;
