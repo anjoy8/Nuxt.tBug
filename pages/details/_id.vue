@@ -5,7 +5,10 @@
       <div class="time">
         <el-button @click="articlesDetailsFn(response.id)" style="margin-right: 10px;" type="primary"
                    icon="el-icon-edit" circle></el-button>
+
+
         {{new Date(response.tdCreatetime).format('yyyy-MM-dd')}}
+        <el-button @click="delArticlesDetailsFn(response.id)" type="danger" icon="el-icon-delete" circle></el-button>
       </div>
       <div class="detail-body-tag">
         <!--<span v-for="list in articleDetails.label" :key="list" class="tag">{{list}}</span>-->
@@ -114,6 +117,24 @@
       }
     },
     methods: {
+      delArticlesDetailsFn: function(id) {
+        let that = this
+        var curTime = new Date()
+        var expiretime = new Date(Date.parse(window.localStorage.TokenExptire))
+
+
+        if (window.localStorage.Token && window.localStorage.Token.length >= 128 && !(curTime >= expiretime || !window.localStorage.TokenExptire)) {
+          axios.delete('/api/TopicDetail/delete?id=' + id).then(
+            respone => {
+              debugger
+              const tagList = (respone.data.response || [])
+              that.taglists = tagList
+
+            })
+        } else {
+          this.$router.push({ path: `/login?redirect=/details/${id}` })
+        }
+      },
       articlesDetailsFn: function(id) {
 
         if (window.localStorage.Token && window.localStorage.Token.length >= 128) {
