@@ -76,10 +76,10 @@
         return { response, markHtml }
       } catch (err) {
 
-        if (err.response.status == 401) {
+        if (err.response&&err.response.status == 401) {
           return redirect('/login')
         } else {
-          error({ statusCode: err.response.status })
+          error({ statusCode: 404 })
         }
       }
     },
@@ -124,13 +124,28 @@
 
 
         if (window.localStorage.Token && window.localStorage.Token.length >= 128 && !(curTime >= expiretime || !window.localStorage.TokenExptire)) {
-          axios.delete('/api/TopicDetail/delete?id=' + id).then(
-            respone => {
-              debugger
-              const tagList = (respone.data.response || [])
-              that.taglists = tagList
+          that.$confirm('确定要删除该内容?', '注意！', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            axios.delete('/api/TopicDetail/delete?id=' + id).then(
+              respone => {
+                debugger
+                if(respone.data.success){
+                  that.$notify({
+                    title: '成功',
+                    message: "删除成功",
+                    type: 'success'
+                  })
+                  this.$router.push({ path: `/` })
 
-            })
+                }
+
+              })
+          }).catch(() => {
+
+          })
         } else {
           this.$router.push({ path: `/login?redirect=/details/${id}` })
         }
