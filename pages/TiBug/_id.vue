@@ -29,7 +29,7 @@
 
       <el-form-item label="专题分类">
         <el-select v-model="form.TopicId" placeholder="请选择专题分类">
-          <el-option v-for="item in taglists" :key=item.id :label='item.tName+"专题"' :value="item.id"></el-option>
+          <el-option v-for="item in taglists" :key=item.id :label='item.tName+"专题"' :value="item.Id"></el-option>
 
         </el-select>
       </el-form-item>
@@ -169,7 +169,7 @@
               const tagList = (respone.data.response || [])
 
               that.form = tagList
-              that.form.TopicId = tagList.topicId
+              that.form.TopicId = tagList.TopicId
               that.form.isok = true
             })
         }
@@ -219,7 +219,7 @@
           text: 'Loading',
           background: 'rgba(255, 255, 255, 0.7)'
         })
-        if (formdata.id > 0) {
+        if (formdata.Id > 0) {
           try {
             axios({
               url: '/api/TopicDetail/update',

@@ -3,12 +3,12 @@
     <div class="detail-header">
       <h1>{{response.tdName}}</h1>
       <div class="time">
-        <el-button @click="articlesDetailsFn(response.id)" style="margin-right: 10px;" type="primary"
+        <el-button @click="articlesDetailsFn(response.Id)" style="margin-right: 10px;" type="primary"
                    icon="el-icon-edit" circle></el-button>
 
 
         {{new Date(response.tdCreatetime).format('yyyy-MM-dd')}}
-        <el-button @click="delArticlesDetailsFn(response.id)" type="danger" icon="el-icon-delete" circle></el-button>
+        <el-button @click="delArticlesDetailsFn(response.Id)" type="danger" icon="el-icon-delete" circle></el-button>
       </div>
       <div class="detail-body-tag">
         <!--<span v-for="list in articleDetails.label" :key="list" class="tag">{{list}}</span>-->
