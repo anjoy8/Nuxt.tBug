@@ -57,7 +57,7 @@
       try {
         const { id } = params
 
-        const { data: { response } } = await axios.get('/api/TopicDetail/' + id)
+        const { data: { response } } = await axios.get('/api/TopicDetail/get/' + id)
 
         marked.setOptions({
           renderer: new marked.Renderer(),

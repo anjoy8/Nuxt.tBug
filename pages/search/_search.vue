@@ -35,8 +35,8 @@
     async asyncData ({params, error}) {
       const {search} = params;
       try {
-        const {data: {response}} = await axios.get(`/api/TopicDetail?key=${search}`);
-        
+        const {data: {response}} = await axios.get(`/api/TopicDetail/get?key=${search}`);
+
         return {
           searchList: response.data,
           search,

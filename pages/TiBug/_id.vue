@@ -163,7 +163,7 @@
 
           })
         if (id > 0) {
-          axios.get('/api/TopicDetail/' + id).then(
+          axios.get('/api/TopicDetail/get/' + id).then(
             respone => {
 
               const tagList = (respone.data.response || [])
@@ -267,7 +267,7 @@
         }
         else {
           axios({
-            url: '/api/TopicDetail',
+            url: '/api/TopicDetail/post',
             method: 'post',
             data: formdata
           })

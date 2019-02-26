@@ -51,7 +51,7 @@
     asyncData: async function({ params }) {
       try {
         const { tag } = params
-        const { data: { response } } = await axios.get(`/api/TopicDetail?page=1&tname=${escape(tag)}`)
+        const { data: { response } } = await axios.get(`/api/TopicDetail/get?page=1&tname=${escape(tag)}`)
 
 
         return {
@@ -81,7 +81,7 @@
         if (this.lastpage) {
           this.page++
           const page = this.page
-          axios.get(`/api/TopicDetail?page=${page}&tname=${tag}`)
+          axios.get(`/api/TopicDetail/get?page=${page}&tname=${tag}`)
             .then(res => {
               this.tagList = [...this.tagList, ...res.data.response.data]
               this.ScrollFirst = true

@@ -49,7 +49,7 @@
         // let { data } = await axios.get(`/api/TopicDetail/24`)
         // console.log(data)
 
-        const { data: { response } } = await axios.get(`/api/TopicDetail?page=1`)
+        const { data: { response } } = await axios.get(`/api/TopicDetail/get?page=1`)
 
         return {
           articleList: response.data,
@@ -85,7 +85,7 @@
           } else {
             this.page++;
           }
-          axios.get(`/api/TopicDetail?page=${this.page}`)
+          axios.get(`/api/TopicDetail/get?page=${this.page}`)
             .then(res => {
               const Articles = res.data.response.data;
               this.articleList = [...this.articleList, ...Articles];
