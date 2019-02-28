@@ -80,6 +80,8 @@ npm run generate
 <ul>
 <li><a id="post_title_link_9495620" href="https://www.cnblogs.com/laozhang-is-phi/p/10236645.html">框架一 || 为开源收录Bug之 TiBug项目 开篇讲<br></a></li>
 <li><a id="post_title_link_10249248" href="https://www.cnblogs.com/laozhang-is-phi/p/10249248.html">二 || 项目搭建 与 接口API</a></li>
+<li><a id="post_title_link_10322040" href="https://www.cnblogs.com/laozhang-is-phi/p/10322040.html">三 || Nginx+Github+PM2 快速部署项目(一)</a></li>
+
 </ul>
 
 
