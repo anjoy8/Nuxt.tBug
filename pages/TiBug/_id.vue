@@ -1,41 +1,42 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="80px" style="padding-top: 20px;">
+    <el-form ref="form" :model="response" label-width="80px" style="padding-top: 20px;">
       <el-form-item label="问题标题">
-        <el-input v-model="form.tdName"></el-input>
+        <el-input v-model="response.tdName"></el-input>
       </el-form-item>
       <el-form-item label="简要描述">
-        <el-input v-model="form.tdDetail"></el-input>
+        <el-input v-model="response.tdDetail"></el-input>
       </el-form-item>
       <el-form-item label="作者昵称">
-        <el-input v-model="form.tdAuthor"></el-input>
+        <el-input v-model="response.tdAuthor"></el-input>
       </el-form-item>
       <el-form-item label="作者头像">
-        <!--<el-input v-model="form.tdLogo"></el-input>-->
+        <!--<el-input v-model="response.tdLogo"></el-input>-->
         <el-upload
           class="avatar-uploader"
           action="/api/Img/Pic"
           :show-file-list="false"
+          :headers="token"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
-          <img v-if="form.tdLogo" :src="form.tdLogo" class="avatar">
+          <img v-if="response.tdLogo" :src="response.tdLogo" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
 
       <el-form-item label="是否解决">
-        <el-switch v-model="form.isok"></el-switch>
+        <el-switch v-model="response.isok"></el-switch>
       </el-form-item>
 
       <el-form-item label="专题分类">
-        <el-select v-model="form.TopicId" placeholder="请选择专题分类">
+        <el-select v-model="response.TopicId" placeholder="请选择专题分类">
           <el-option v-for="item in taglists" :key=item.id :label='item.tName+"专题"' :value="item.Id"></el-option>
 
         </el-select>
       </el-form-item>
       <el-form-item label="正文内容">
         <no-ssr>
-          <mavon-editor :toolbars="markdownOption" v-model="form.tdContent" ref=md @imgAdd="$imgAdd"/>
+          <mavon-editor :toolbars="markdownOption" v-model="response.tdContent" ref=md @imgAdd="$imgAdd"/>
         </no-ssr>
       </el-form-item>
       <el-form-item>
@@ -50,6 +51,23 @@
   import axios from '~/plugins/axios'
 
   export default {
+    async asyncData({ params, error, redirect }) {
+      try {
+        const { id } = params
+
+        const { data: { response } } = await axios.get('/api/TopicDetail/get/' + id)
+
+        response.isok=true
+        return { response }
+      } catch (err) {
+
+        if (err.response && err.response.status == 401) {
+          return redirect('/login')
+        } else {
+          error({ statusCode: 404 })
+        }
+      }
+    },
     data() {
       return {
         markdownOption: {
@@ -98,7 +116,8 @@
         handbook: '#### 这是手册',
         submitName: '',
         submitAble: true,
-        imageUrl: ''
+        imageUrl: '',
+        token: {Authorization: 'Bearer ' + window.localStorage.Token}
       }
     },
     mounted(params) {
@@ -138,7 +157,7 @@
         this.$router.push({ path: `/login?redirect=/tibug/${this.$route.params.id}` })
       },
       handleAvatarSuccess(res, file) {
-        this.form.tdLogo = '/' + res.response
+        this.response.tdLogo = '/' + res.response
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg'
@@ -163,21 +182,22 @@
 
           })
         if (id > 0) {
-          axios.get('/api/TopicDetail/get/' + id).then(
-            respone => {
-
-              const tagList = (respone.data.response || [])
-
-              that.form = tagList
-              that.form.TopicId = tagList.TopicId
-              that.form.isok = true
-            })
+          // axios.get('/api/TopicDetail/get/' + id).then(
+          //   respone => {
+          //
+          //     const tagList = (respone.data.response || [])
+          //
+          //     that.form = tagList
+          //     that.form.TopicId = tagList.TopicId
+          //     that.form.isok = true
+          //   })
         }
 
       },
       onSubmit() {
         let that = this
-        let formdata = this.form
+        // let formdata = this.form
+        let formdata = this.response
 
         if (!formdata.tdName) {
           this.$message({
@@ -307,7 +327,10 @@
           url: '/api/Img/Pic',
           method: 'post',
           data: formdata,
-          headers: { 'Content-Type': 'multipart/form-data' }
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + window.localStorage.Token
+          }
         }).then((url) => {
           // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
           /**
@@ -315,7 +338,7 @@
            * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，`$vm`为`mavonEditor`
            * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
            */
-          debugger
+
           that.$refs.md.$img2Url(pos, '/' + url.data.response)
         })
       },
