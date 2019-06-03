@@ -117,11 +117,17 @@
         submitName: '',
         submitAble: true,
         imageUrl: '',
-        token: {Authorization: 'Bearer ' + window.localStorage.Token}
+        token: {
+          Authorization: 'Bearer '
+        }
       }
     },
     mounted(params) {
 
+      let tokenStr=window.localStorage.Token
+      this.token={
+        Authorization: 'Bearer ' +tokenStr
+      };
       let tdid = this.$route.params.id
 
       this.form.Id = tdid > 0 ? tdid : 0
