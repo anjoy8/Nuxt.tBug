@@ -56,6 +56,16 @@
         const { id } = params
 
         const { data: { response } } = await axios.get('/api/TopicDetail/get/' + id)
+        if(!(id>0)){
+          response.tdName="";
+          response.tdContent="";
+          response.tdDetail="";
+          response.tdAuthor="";
+          response.tdLogo="";
+          response.isok=false;
+          response.TopicId="0";
+          response.tdSectendDetail="";
+        }
 
         response.isok=true
         return { response }
