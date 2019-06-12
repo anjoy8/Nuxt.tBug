@@ -398,4 +398,8 @@
     height: 120px;
     display: block;
   }
+
+  .markdown-body{
+    height: 500px !important;
+  }
 </style>
