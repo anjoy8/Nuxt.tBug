@@ -302,6 +302,8 @@
 
         }
         else {
+          formdata.tdSectendDetail="tbug";
+          
           axios({
             url: '/api/TopicDetail/post',
             method: 'post',
