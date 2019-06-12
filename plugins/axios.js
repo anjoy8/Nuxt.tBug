@@ -2,7 +2,7 @@ import axios from 'axios'
 
 let options = {}
 if (process.server) {
-  options.baseURL = 'http://localhost:8081'
+  options.baseURL = 'http://62.234.90.153:8081'
 }
 
 let http = axios.create(options)
