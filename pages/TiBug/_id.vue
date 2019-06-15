@@ -341,6 +341,8 @@
         // 第一步.将图片上传到服务器.
         var formdata = new FormData()
         formdata.append('image', $file)
+        formData.append('testid',1)
+        
         axios({
           url: '/api/Img/Pic',
           method: 'post',
