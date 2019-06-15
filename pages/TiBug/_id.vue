@@ -17,6 +17,7 @@
           action="/api/Img/Pic"
           :show-file-list="false"
           :headers="token"
+          :data="ruleForm"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
           <img v-if="response.tdLogo" :src="response.tdLogo" class="avatar">
@@ -129,7 +130,13 @@
         imageUrl: '',
         token: {
           Authorization: 'Bearer '
-        }
+        },
+      //！！！点击提交按钮，除file文件外，可以携带其它参数
+      ruleForm: {
+        max_ver: '',
+        min_ver: '',
+        enable: ''
+      }
       }
     },
     mounted(params) {
