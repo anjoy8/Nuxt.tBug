@@ -59,6 +59,30 @@ npm start
 npm run generate
 ```
 
+## 两种部署方法
+
+### SPA 部署
+
+直接执行下边命令，生成 dist 文件夹，然后 nginx 代理部署即可，
+
+这种部署仅仅是 SPA 的方法，不会有服务端渲染。
+
+```js
+npm run generate
+```
+
+
+### SSR 部署
+
+
+先编译，然后再执行即可，这个时候会启动一个 node 服务端口监听，就类似 netcore 部署一样，
+可以守护下这个进程，然后反向代码这个端口。
+
+
+```js
+npm run build
+npm start
+```
 
 
 
