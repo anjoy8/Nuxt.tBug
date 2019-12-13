@@ -14,7 +14,7 @@
         <!--<el-input v-model="response.tdLogo"></el-input>-->
         <el-upload
           class="avatar-uploader"
-          action="/api/Img/Pic"
+          action="/images/Upload/Pic"
           :show-file-list="false"
           :headers="token"
           :data="ruleForm"
@@ -351,7 +351,7 @@
         formData.append('testid',1)
         
         axios({
-          url: '/api/Img/Pic',
+          url: '/images/Upload/Pic',
           method: 'post',
           data: formdata,
           headers: {
