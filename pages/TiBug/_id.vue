@@ -217,9 +217,10 @@ export default {
     taglist(id) {
       let that = this
 
-      axios.get('/api/Topic/get').then(respone => {
+      axios.get('/api/Topic').then(respone => {
         const tagList = respone.data.response || []
         that.taglists = tagList
+        console.log(that.taglists)
       })
       if (id > 0) {
         // axios.get('/api/TopicDetail/get/' + id).then(
