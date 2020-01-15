@@ -29,7 +29,7 @@ export default {
         
          this.$notify({
             title: '成功',
-            message: "登录成功,Token有效期"+(user.expires_in/60)+"分钟",
+            message: "登录成功,Token有效期"+parseInt(user.expires_in/60)+"分钟",
             type: 'success'
         })
 
@@ -39,7 +39,8 @@ export default {
         window.localStorage.TokenExptire = expiredate
 
         this.$store.commit("saveToken", user.access_token);
-
+        
+        this.$router.push({ path: '/' })
     } catch (e) {
       console.log(e)
       this.$root.$emit('show-snackbar', { message: e })
