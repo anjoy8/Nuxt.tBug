@@ -35,7 +35,7 @@
           <el-option
             v-for="item in taglists"
             :key="item.id"
-            :label="item.tName+"专题""
+            :label="item.tName+'专题'"
             :value="item.Id"
           ></el-option>
         </el-select>
@@ -217,7 +217,7 @@ export default {
     taglist(id) {
       let that = this
 
-      axios.get('/api/Topic').then(respone => {
+      axios.get('/api/Topic/get').then(respone => {
         const tagList = respone.data.response || []
         that.taglists = tagList
       })
