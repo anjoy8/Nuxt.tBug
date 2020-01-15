@@ -20,11 +20,29 @@ export default {
     return {
     }
   },
-  async asyncData({ params, error, redirect }) {
+  async created () {
     try {
-      return redirect('/')
-    } catch (err) {
-      
+     
+        await applicationUserManager.signinRedirectCallback()
+        let user = await applicationUserManager.getUser()
+        console.log(user)
+        
+         this.$notify({
+            title: '成功',
+            message: "登录成功,Token有效期"+(user.expires_in/60)+"分钟",
+            type: 'success'
+        })
+
+        window.localStorage.Token = user.access_token
+        var curTime = new Date();
+        var expiredate=  new Date(curTime.setSeconds(curTime.getSeconds() + user.expires_in));
+        window.localStorage.TokenExptire = expiredate
+
+        this.$store.commit("saveToken", user.access_token);
+
+    } catch (e) {
+      console.log(e)
+      this.$root.$emit('show-snackbar', { message: e })
     }
   },
 
@@ -34,30 +52,5 @@ export default {
 <style>
 
 </style>
-//  await applicationUserManager.signinRedirectCallback()
-//         let user = await applicationUserManager.getUser()
-//         console.log(user)
-        
-//          this.$notify({
-//             title: '成功',
-//             message: "登录成功,Token有效期"+(user.expires_in/60)+"分钟",
-//             type: 'success'
-//         })
-
-//         window.localStorage.Token = user.access_token
-//         var curTime = new Date();
-//         var expiredate=  new Date(curTime.setSeconds(curTime.getSeconds() + user.expires_in));
-//         window.localStorage.TokenExptire = expiredate
-
-//         this.$store.commit("saveToken", user.access_token);
 
 
-//   async created () {
-//     try {
-     
-//         this.$router.push({ path: '/' })
-//     } catch (e) {
-//       console.log(e)
-//       this.$root.$emit('show-snackbar', { message: e })
-//     }
-//   }
