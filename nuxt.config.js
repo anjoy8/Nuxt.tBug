@@ -67,7 +67,7 @@ module.exports = {
   */
   build: {
     build: {
-      vendor: ['element-ui', 'axios', 'Button', 'Input', 'Tabs', 'Message', 'TabPane', 'Row', 'Col', 'Loading', 'Notification', 'Icon']
+      vendor: ['axios', 'Button', 'Input', 'Tabs', 'Message', 'TabPane', 'Row', 'Col', 'Loading', 'Notification', 'Icon']
     },
     analyze: false,
     plugins: [

@@ -2,6 +2,7 @@ import axios from 'axios'
 
 let options = {}
 if (process.server) {
+  console.log('process.server')
   options.baseURL = 'http://apk.neters.club'
 }
 

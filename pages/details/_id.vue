@@ -1,6 +1,6 @@
 <template>
   <div id="articlesDetails" class="fadein">
-    <div class="detail-header">
+       <div class="detail-header">
       <h1>{{response.tdName}}</h1>
       <div class="time">
         <el-button
@@ -8,13 +8,6 @@
           style="margin-right: 10px;"
           type="primary"
           icon="el-icon-edit"
-          circle
-        ></el-button>
-        {{new Date(response.tdCreatetime).format('yyyy-MM-dd')}}
-        <el-button
-          @click="delArticlesDetailsFn(response.Id)"
-          type="danger"
-          icon="el-icon-delete"
           circle
         ></el-button>
       </div>
@@ -55,9 +48,9 @@ highlight.registerLanguage('python', python)
 highlight.registerLanguage('sql', sql)
 highlight.registerLanguage('bash', bash)
 
-import '../../assets/hybrid.css'
-import applicationUserManager from '~/plugins/Auth/applicationusermanager'
-import userAuth from '~/plugins/Auth/UserAuth'
+// import '../../assets/hybrid.css'
+// import applicationUserManager from '~/plugins/Auth/applicationusermanager'
+// import userAuth from '~/plugins/Auth/UserAuth'
 
 dateFormat()
 
@@ -88,7 +81,7 @@ export default {
     } catch (err) {
       if (err.response && err.response.status == 401) {
         //这里使用Id4授权认证，用Jwt，请删之；
-        applicationUserManager.login();
+        // applicationUserManager.login();
         // return redirect('/login')
       } else {
         error({ statusCode: 404 })
@@ -96,7 +89,7 @@ export default {
     }
   },
   name: 'Articledetails',
-  mixins: [userAuth],
+  // mixins: [userAuth],
   data() {
     return {
       background: false,
@@ -165,11 +158,12 @@ export default {
       } else {
         
         //这里使用Id4授权认证，用Jwt，请删之；
-        applicationUserManager.login();
+        // applicationUserManager.login();
         //this.$router.push({ path: `/login?redirect=/details/${id}` })
       }
     },
     articlesDetailsFn: function(id) {
+        this.$router.push({ path: `/tibug/${id}` })
       if (
         window.localStorage.Token &&
         window.localStorage.Token.length >= 128
@@ -177,7 +171,7 @@ export default {
         this.$router.push({ path: `/tibug/${id}` })
       } else {
         //这里使用Id4授权认证，用Jwt，请删之；
-        applicationUserManager.login();
+        // applicationUserManager.login();
         // this.$router.push({ path: `/login?redirect=/details/${id}` })
       }
     },
