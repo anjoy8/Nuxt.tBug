@@ -13,6 +13,9 @@
               </div>
             </div>
             <div>
+               <a href="http://vueadmin.neters.club" target="_blank" class="adminlogo" id="avatar">
+                <img src="http://vueadmin.neters.club/favicon.ico" alt="">
+              </a>
               <div id="search">
                 <el-input style="width: auto;" placeholder="搜索" :on-icon-click="searchArticle" v-model="search"
                           @keyup.enter.native="keyupsearch($event)">

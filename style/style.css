@@ -594,7 +594,7 @@ html {
 #search {
   position: absolute;
   /*width: 300px;*/
-  right: 1px;
+  right: 70px;
   height: 40px;
   margin-top: 10px;
 }
@@ -934,18 +934,23 @@ html {
 #search .mobile-tibug {
   display: none;
 }
+.adminlogo{
+  width: 43px ;
+}
 
 @media screen and (max-width: 768px) {
   .container {
     padding: 0 !important;
     margin-bottom: 30px;
   }
+  .adminlogo{
+    display: none !important;
+  }
   .main {
     padding-bottom: 0px;
   }
   #search {
-    /*right: 10px;*/
-    /*width: 164px;*/
+    right: 1px;
   }
   #search .mobile-tibug {
    display: block !important;
