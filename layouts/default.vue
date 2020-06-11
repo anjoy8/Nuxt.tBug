@@ -33,7 +33,7 @@
                 <el-tab-pane v-for="item in taglists" :key=item :label='item+"专题"' :name="item"
                              data-ripple></el-tab-pane>
               </el-tabs>
-              <el-button type="primary" icon="el-icon-edit" id="addacticlebtn" @click="loginpage">Ti Bug</el-button>
+              <!-- <el-button type="primary" icon="el-icon-edit" id="addacticlebtn" @click="loginpage">Ti Bug</el-button> -->
             </template>
           </div>
         </el-col>

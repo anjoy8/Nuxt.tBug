@@ -2,7 +2,7 @@
   <div id="articlesDetails" class="fadein">
        <div class="detail-header">
       <h1>{{response.tdName}}</h1>
-      <div class="time">
+      <!-- <div class="time">
         <el-button
           @click="articlesDetailsFn(response.Id)"
           style="margin-right: 10px;"
@@ -10,7 +10,7 @@
           icon="el-icon-edit"
           circle
         ></el-button>
-      </div>
+      </div> -->
       <div class="detail-body-tag">
         <!--<span v-for="list in articleDetails.label" :key="list" class="tag">{{list}}</span>-->
       </div>
@@ -235,8 +235,8 @@ export default {
 .detail-header {
   /*width: 140%;*/
   margin-left: -20%;
-  background-color: #004c99;
-  min-height: 150px;
+  background-color: #8fbdc7;
+  /* min-height: 150px; */
   padding-left: 20%;
 }
 
@@ -244,10 +244,10 @@ export default {
   font-size: 24px;
   color: #fff;
   font-weight: 900;
-  padding-top: 60px;
+  padding-top: 20px;
   text-align: left;
   padding-left: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   max-height: 250px;
 }
 

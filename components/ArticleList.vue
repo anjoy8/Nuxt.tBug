@@ -1,7 +1,7 @@
 <template>
   <div class="articleList">
     <el-row :gutter="20" style="padding-bottom:12px">
-      <el-col :xs="24" :sm="24" :md="24" :lg="12"  v-for="item in articleList" :key="item.id" class="artitem" >
+      <el-col :xs="24" :sm="24" :md="24" :lg="6"  v-for="item in articleList" :key="item.id" class="artitem" >
         <div @click="articlesDetailsFn(item.Id)">
           <div class="box-card articles-box" >
             <div class="post-time">
