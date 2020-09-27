@@ -13,6 +13,9 @@
               </div>
             </div>
             <div>
+               <a href="http://vueadmin.neters.club" target="_blank" class="adminlogo" id="avatar">
+                <img src="http://vueadmin.neters.club/favicon.ico" alt="">
+              </a>
               <div id="search">
                 <el-input style="width: auto;" placeholder="搜索" :on-icon-click="searchArticle" v-model="search"
                           @keyup.enter.native="keyupsearch($event)">
@@ -30,7 +33,7 @@
                 <el-tab-pane v-for="item in taglists" :key=item :label='item+"专题"' :name="item"
                              data-ripple></el-tab-pane>
               </el-tabs>
-              <el-button type="primary" icon="el-icon-edit" id="addacticlebtn" @click="loginpage">Ti Bug</el-button>
+              <!-- <el-button type="primary" icon="el-icon-edit" id="addacticlebtn" @click="loginpage">Ti Bug</el-button> -->
             </template>
           </div>
         </el-col>

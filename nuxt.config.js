@@ -67,7 +67,7 @@ module.exports = {
   */
   build: {
     build: {
-      vendor: ['element-ui', 'axios', 'Button', 'Input', 'Tabs', 'Message', 'TabPane', 'Row', 'Col', 'Loading', 'Notification', 'Icon']
+      vendor: ['axios', 'Button', 'Input', 'Tabs', 'Message', 'TabPane', 'Row', 'Col', 'Loading', 'Notification', 'Icon']
     },
     analyze: false,
     plugins: [
@@ -87,8 +87,8 @@ module.exports = {
     },
   },
   proxy: [
-    ['/api', { target: 'http://apk.neters.club' }],//这里改成你自己的后端api端口地址，记得每次修改，都需要重新build
-    ['/images', { target: 'http://apk.neters.club' }],
+    ['/api', { target: 'http://localhost:8081' }],//这里改成你自己的后端api端口地址，记得每次修改，都需要重新build
+    ['/images', { target: 'http://localhost:8081' }],
     // ['/api', { target: 'http://123.206.33.109:8081' }],
     //['/images', { target: 'http://123.206.33.109:8081' }],
   ]

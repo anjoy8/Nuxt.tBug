@@ -2,7 +2,8 @@ import axios from 'axios'
 
 let options = {}
 if (process.server) {
-  options.baseURL = 'http://apk.neters.club'
+  console.log('process.server')
+  options.baseURL = 'http://localhost:8081/'
 }
 
 let http = axios.create(options)

@@ -594,7 +594,7 @@ html {
 #search {
   position: absolute;
   /*width: 300px;*/
-  right: 1px;
+  right: 70px;
   height: 40px;
   margin-top: 10px;
 }
@@ -668,8 +668,8 @@ html {
   right: 0px;
   top: 4px;
   height: 33px;
-  background-color: #4cbcfe;
-  border-color: #4cbcfe
+  background-color: #8fbdc7;
+  border-color: #8fbdc7
 }
 
 #gomobilebtn {
@@ -677,8 +677,8 @@ html {
   right: 90px;
   top: 4px;
   height: 33px;
-  background-color: #4cbcfe;
-  border-color: #4cbcfe
+  background-color: #8fbdc7;
+  border-color: #8fbdc7
 }
 
 #avatar {
@@ -724,11 +724,11 @@ html {
 }
 
 .el-tabs__active-bar {
-  background-color: #4cbcfe !important;
+  background-color: #8fbdc7 !important;
 }
 
 .el-tabs__item.is-active {
-  color: #4cbcfe !important
+  color: #8fbdc7 !important
 }
 
 .navmenu button span {
@@ -756,8 +756,8 @@ html {
   width: 120%;
   margin-left: -10%;
   padding-left: 12%;
-  height: 100px;
-  background-color: #1c96e0;
+  height: 80px;
+  background-color: #8fbdc7;
   box-sizing: border-box
 }
 
@@ -934,18 +934,23 @@ html {
 #search .mobile-tibug {
   display: none;
 }
+.adminlogo{
+  width: 43px ;
+}
 
 @media screen and (max-width: 768px) {
   .container {
     padding: 0 !important;
     margin-bottom: 30px;
   }
+  .adminlogo{
+    display: none !important;
+  }
   .main {
     padding-bottom: 0px;
   }
   #search {
-    /*right: 10px;*/
-    /*width: 164px;*/
+    right: 1px;
   }
   #search .mobile-tibug {
    display: block !important;
