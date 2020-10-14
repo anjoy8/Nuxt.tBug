@@ -2,7 +2,7 @@
   <div id="articlesDetails" class="fadein">
        <div class="detail-header">
       <h1>{{response.tdName}}</h1>
-      <!-- <div class="time">
+      <div class="time">
         <el-button
           @click="articlesDetailsFn(response.Id)"
           style="margin-right: 10px;"
@@ -10,7 +10,7 @@
           icon="el-icon-edit"
           circle
         ></el-button>
-      </div> -->
+      </div>
       <div class="detail-body-tag">
         <!--<span v-for="list in articleDetails.label" :key="list" class="tag">{{list}}</span>-->
       </div>
