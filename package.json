@@ -29,7 +29,7 @@
     "element-ui": "^2.4.6",
     "highlight.js": "^9.12.0",
     "marked": "^0.3.19",
-    "mavon-editor": "^2.6.17",
+    "mavon-editor": "^2.8.2",
     "oidc-client": "^1.4.1",
     "nuxt": "^2.0.0"
   },
